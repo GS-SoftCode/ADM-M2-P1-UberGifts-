@@ -1,0 +1,56 @@
+<ion-content class="ion-padding login-bg">
+  <div class="login-container">
+
+    <!-- Ilustración y bienvenida -->
+    <div class="login-header ion-text-center">
+      <ion-img src="assets/plant-icon.svg" alt="Plant illustration" class="plant-img"></ion-img>
+      <h1>¡Hola!</h1>
+      <p>Bienvenido a UberGifts</p>
+    </div>
+
+    <!-- Formulario de login -->
+    <ion-card class="login-card">
+      <ion-card-header>
+        <ion-card-title>Login</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="loginForm">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email" placeholder="you@example.com"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
+          </ion-item>
+
+          <div class="forgot-password">
+            <ion-button fill="clear" size="small">¿Olvidaste tu contraseña?</ion-button>
+          </div>
+
+          <ion-button expand="block" type="submit" color="success">Login</ion-button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+          <span>O inicia sesión con:</span>
+        </div>
+
+        <!-- Social login -->
+        <div class="social-buttons">
+          <ion-button fill="outline" shape="round" color="dark">
+            <ion-icon name="logo-apple" slot="start"></ion-icon>
+          </ion-button>
+        </div>
+
+        <!-- Registro -->
+        <div class="signup-prompt ion-text-center">
+          <span>¿No tienes una Cuenta?</span>
+          <ion-button fill="clear" size="small">Crear Cuenta</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

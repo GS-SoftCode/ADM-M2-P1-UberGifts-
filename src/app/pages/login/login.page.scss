@@ -1,0 +1,67 @@
+.login-bg {
+  --background: linear-gradient(to bottom, #e6f4ea, #ffffff);
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.login-header {
+  margin-top: 32px;
+
+  h1 {
+    font-size: 24px;
+    color: #2f8f5b;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #7a8f8a;
+    margin-bottom: 24px;
+  }
+
+  .plant-img {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 16px;
+  }
+}
+
+.login-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.forgot-password {
+  text-align: right;
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+.divider {
+  text-align: center;
+  margin: 24px 0;
+  font-size: 13px;
+  color: #9aa3aa;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.signup-prompt {
+  font-size: 14px;
+  color: #2c2e31;
+
+  ion-button {
+    color: #2f8f5b;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "ubergifts-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
