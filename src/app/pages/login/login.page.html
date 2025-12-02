@@ -13,8 +13,8 @@
       <ion-card-header>
         <ion-card-title>Login</ion-card-title>
       </ion-card-header>
-
       <ion-card-content>
+
         <form [formGroup]="loginForm">
           <ion-item>
             <ion-label position="floating">Email</ion-label>
@@ -29,8 +29,8 @@
           <div class="forgot-password">
             <ion-button fill="clear" size="small">¿Olvidaste tu contraseña?</ion-button>
           </div>
+          <ion-button expand="block" type="submit" color="success" (click)="onMenu()">Login</ion-button>
 
-          <ion-button expand="block" type="submit" color="success">Login</ion-button>
         </form>
 
         <!-- Divider -->
@@ -48,8 +48,9 @@
         <!-- Registro -->
         <div class="signup-prompt ion-text-center">
           <span>¿No tienes una Cuenta?</span>
-          <ion-button fill="clear" size="small">Crear Cuenta</ion-button>
+          <ion-button fill="clear" size="small" (click)="onCreateAccount()">Crear Cuenta</ion-button>
         </div>
+
       </ion-card-content>
     </ion-card>
   </div>

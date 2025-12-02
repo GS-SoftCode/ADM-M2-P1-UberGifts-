@@ -14,26 +14,20 @@ import { NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private navCtrl: NavController) { }
+  constructor(private fb: FormBuilder, public navCtrl: NavController) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: [''],
       password: ['']
     });
   }
 
-  onLogin() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      console.log('Login', email, password);
-      this.navCtrl.navigateRoot('/tabs');
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
+  onCreateAccount() {
+    this.navCtrl.navigateForward('/create-account');
   }
 
-  onForgotPassword() { console.log('Forgot password'); }
-  onSignup() { console.log('Signup'); }
-
+  onMenu() {
+    this.navCtrl.navigateForward('/tabs/home');
+  }
 }
