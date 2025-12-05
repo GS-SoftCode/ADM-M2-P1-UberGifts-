@@ -17,6 +17,11 @@ export const routes: Routes = [
     import('./pages/create-account/create-account.page').then((m) => m.CreateAccountPage),
   },
   {
+    path: 'product/:id',
+    loadComponent: () =>
+      import('./product-detail/product-detail.page').then((m) => m.ProductDetailPage),
+  },
+  {
     path: 'tabs',
     loadChildren: () =>
     import('./tabs/tabs.routes').then((m) => m.routes),

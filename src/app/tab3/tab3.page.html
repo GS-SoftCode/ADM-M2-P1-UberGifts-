@@ -1,17 +1,55 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="category-bg" [fullscreen]="true">
+  <!-- Banner buscador + perfil -->
+  <div class="app-banner">
+    <div class="search-section">
+      <div class="search-row">
+        <ion-searchbar 
+          class="search-bar" 
+          placeholder="Buscar en carrito" 
+          show-clear-button="focus"
+          mode="ios"
+          animated="true">
+        </ion-searchbar>
+        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+          <ion-icon name="person-circle" class="profile-icon"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Título -->
+  <div class="section-header">
+    <h2 class="section-title">Tu carrito</h2>
+  </div>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <!-- Botón comprar -->
+  <div class="cart-actions">
+    <ion-button class="buy-btn" shape="round">Comprar</ion-button>
+  </div>
+
+  <!-- Lista de productos (diseño estático igual a Category) -->
+  <div class="products-list">
+    <ion-card class="product-card">
+      <div class="product-media">
+        <ion-img src="assets/icon/Dulces/Suspiros.jpeg" alt="Suspiros" class="product-img"></ion-img>
+        <div class="img-overlay"></div>
+        <div class="product-footer">
+          <img src="assets/icon/LocalDulces.jpg" alt="store" class="store-icon" />
+          <span class="product-name">Suspiros</span>
+          <span class="product-rating">5★</span>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="product-card">
+      <div class="product-media">
+        <ion-img src="assets/icon/Dulces/Pristiños.png" alt="Pristiños" class="product-img"></ion-img>
+        <div class="img-overlay"></div>
+        <div class="product-footer">
+          <img src="assets/icon/LocalDulces.jpg" alt="store" class="store-icon" />
+          <span class="product-name">Pristiños</span>
+          <span class="product-rating">4★</span>
+        </div>
+      </div>
+    </ion-card>
+  </div>
 </ion-content>

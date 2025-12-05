@@ -1,17 +1,133 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- HTML corregido - tab1.page.html -->
+<ion-content class="home-bg" [fullscreen]="true">
+  <!-- Banner superior simplificado -->
+  <div class="app-banner">
+    <div class="search-section">
+      <div class="search-row">
+        <ion-searchbar 
+          class="search-bar" 
+          placeholder="Busca regalos, chocolates, flores..." 
+          show-clear-button="focus"
+          mode="ios"
+          animated="true">
+        </ion-searchbar>
+        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+          <ion-icon name="person-circle" class="profile-icon"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Promoción destacada -->
+  <div class="promo-banner" *ngIf="showPromo">
+    <div class="promo-content">
+      <ion-icon name="gift" class="promo-icon"></ion-icon>
+      <div class="promo-text">
+        <span class="promo-title">¡Primer regalo!</span>
+        <span class="promo-subtitle">20% OFF en tu primer pedido</span>
+      </div>
+    </div>
+    <ion-button fill="clear" size="small" class="promo-close" (click)="showPromo = false">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </div>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- Categorías con título simplificado -->
+  <div class="section-header">
+    <h2 class="section-title">Categorías</h2>
+  </div>
+
+  <!-- Grid de categorías mejorado (sin experiencias) -->
+  <div class="categories-grid">
+    <ion-card class="category-card" (click)="onCategory('dulces')">
+      <div class="card-overlay"></div>
+      <ion-img src="../../assets/icon/Dulces.jpg" alt="Dulces" class="category-bg" loading="lazy"></ion-img>
+      <ion-card-content class="category-content">
+        <div class="category-icon-wrapper">
+          <ion-icon name="ice-cream" class="category-icon"></ion-icon>
+        </div>
+        <span class="category-title">Dulces</span>
+        <span class="category-count">12 opciones</span>
+      </ion-card-content>
+      <div class="category-badge">
+        <ion-badge color="success">Popular</ion-badge>
+      </div>
+    </ion-card>
+
+    <ion-card class="category-card" (click)="onCategory('flores')">
+      <div class="card-overlay"></div>
+      <ion-img src="../../assets/icon/Flores.jpg" alt="Flores" class="category-bg" loading="lazy"></ion-img>
+      <ion-card-content class="category-content">
+        <div class="category-icon-wrapper">
+          <ion-icon name="flower" class="category-icon"></ion-icon>
+        </div>
+        <span class="category-title">Flores</span>
+        <span class="category-count">8 arreglos</span>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="category-card" (click)="onCategory('peluches')">
+      <div class="card-overlay"></div>
+      <ion-img src="../../assets/icon/Peluches.jpg" alt="Peluches" class="category-bg" loading="lazy"></ion-img>
+      <ion-card-content class="category-content">
+        <div class="category-icon-wrapper">
+          <ion-icon name="paw" class="category-icon"></ion-icon>
+        </div>
+        <span class="category-title">Peluches</span>
+        <span class="category-count">15 modelos</span>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Categorías adicionales (sin experiencias) -->
+    <ion-card class="category-card" (click)="onCategory('chocolates')">
+      <div class="card-overlay"></div>
+      <ion-img src="https://images.unsplash.com/photo-1511381939415-e44015466834?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chocolates" class="category-bg" loading="lazy"></ion-img>
+      <ion-card-content class="category-content">
+        <div class="category-icon-wrapper">
+          <ion-icon name="cafe" class="category-icon"></ion-icon>
+        </div>
+        <span class="category-title">Chocolates</span>
+        <span class="category-count">10 selecciones</span>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="category-card" (click)="onCategory('globos')">
+      <div class="card-overlay"></div>
+      <ion-img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Globos" class="category-bg" loading="lazy"></ion-img>
+      <ion-card-content class="category-content">
+        <div class="category-icon-wrapper">
+          <ion-icon name="balloon" class="category-icon"></ion-icon>
+        </div>
+        <span class="category-title">Globos</span>
+        <span class="category-count">6 diseños</span>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Sección de ofertas -->
+  <div class="section-header">
+    <h2 class="section-title">Ofertas especiales</h2>
+  </div>
+  
+  <div class="offers-slider">
+    <ion-card class="offer-card">
+      <div class="offer-content">
+        <div class="offer-text">
+          <h3>Envío gratis</h3>
+          <p>En pedidos superiores a $25.000</p>
+        </div>
+        <ion-icon name="rocket" class="offer-icon"></ion-icon>
+      </div>
+    </ion-card>
+    
+    <ion-card class="offer-card">
+      <div class="offer-content">
+        <div class="offer-text">
+          <h3>Pack San Valentín</h3>
+          <p>Flores + chocolates -15%</p>
+        </div>
+        <ion-icon name="heart" class="offer-icon"></ion-icon>
+      </div>
+    </ion-card>
+  </div>
 </ion-content>

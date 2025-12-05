@@ -3,7 +3,7 @@ import { TabsPage } from './tabs.page';
 
 export const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
@@ -21,6 +21,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../tab3/tab3.page').then((m) => m.Tab3Page),
       },
+        {
+          path: 'category/:id',
+          loadComponent: () =>
+            import('../category/category.page').then((m) => m.CategoryPage),
+        },
       {
         path: '',
         redirectTo: '/tabs/tab1',

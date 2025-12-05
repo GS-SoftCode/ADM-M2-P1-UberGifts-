@@ -1,17 +1,38 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="tab2-bg" [fullscreen]="true">
+  <!-- Banner superior consistente con Tab1 -->
+  <div class="app-banner">
+    <div class="search-section">
+      <div class="search-row">
+        <ion-searchbar 
+          class="search-bar" 
+          placeholder="Busca tiendas o productos" 
+          show-clear-button="focus"
+          mode="ios"
+          animated="true">
+        </ion-searchbar>
+        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+          <ion-icon name="person-circle" class="profile-icon"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Zona de contenido dividida mitad y mitad -->
+  <div class="split-content">
+    <!-- Header de tienda: logo + nombre -->
+    <div class="store-header-card">
+      <div class="store-logo">
+        <ion-img src="../../assets/icon/LocalDulces.jpg" alt="Logo tienda" class="store-logo-img"></ion-img>
+      </div>
+      <div class="store-header-text">
+        <h3 class="store-title">Candy Shop</h3>
+        <span class="store-sub">Dulces y chocolates artesanales</span>
+      </div>
+    </div>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+    <!-- Contenedor con imagen de mapa -->
+    <div class="map-card">
+      <ion-img src="../../assets/icon/MapaLocales.png" alt="Mapa" class="map-img"></ion-img>
+    </div>
+  </div>
 </ion-content>

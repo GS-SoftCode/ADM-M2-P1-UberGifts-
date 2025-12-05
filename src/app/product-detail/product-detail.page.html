@@ -1,0 +1,50 @@
+<ion-content [fullscreen]="true" class="detail-bg">
+  <!-- Botón regresar fijo arriba-izquierda -->
+  <button class="back-fab" (click)="back()">
+    <ion-icon name="chevron-back"></ion-icon>
+  </button>
+
+  <!-- Imagen del producto arriba -->
+  <div class="hero-image">
+    <ion-img [src]="image" [alt]="name"></ion-img>
+  </div>
+
+  <!-- Nombre, precio y puntuación -->
+  <div class="info-block">
+    <div class="title-row">
+      <h2 class="name">{{ name }}</h2>
+      <div class="rating">{{ rating }}★</div>
+    </div>
+    <div class="price">${{ price | number:'1.2-2' }}</div>
+    <p class="description">{{ description }}</p>
+  </div>
+
+  <!-- Más de la tienda -->
+  <div class="section-header">
+    <h3 class="section-title">Más de la tienda</h3>
+  </div>
+  <div class="products-list">
+    <ion-card class="product-card" *ngFor="let p of moreProducts" (click)="openOther(p)">
+      <div class="product-media">
+        <ion-img [src]="p.image" [alt]="p.name" class="product-img"></ion-img>
+        <div class="img-overlay"></div>
+        <div class="product-footer">
+          <img [src]="p.storeIcon" alt="store" class="store-icon" />
+          <span class="product-name">{{ p.name }}</span>
+          <span class="product-rating">{{ p.rating }}★</span>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+
+  <!-- Barra inferior: cantidad, precio y agregar -->
+  <div class="order-bar">
+    <div class="qty">
+      <button class="qty-btn" (click)="dec()">-</button>
+      <span class="qty-val">{{ qty() }}</span>
+      <button class="qty-btn" (click)="inc()">+</button>
+    </div>
+    <div class="order-price">${{ total() | number:'1.2-2' }}</div>
+    <button class="add-btn" (click)="addToCart()">Agregar</button>
+  </div>
+</ion-content>

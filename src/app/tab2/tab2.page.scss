@@ -1,0 +1,492 @@
+// tab2.page.scss - Mejorado
+.tab2-bg {
+  --background: #f8f9fa;
+}
+
+// Banner superior consistente con Tab1
+.app-banner {
+  background: linear-gradient(135deg, #A9CEA3 0%, #8BC6A4 100%);
+  padding: 16px 16px 20px;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 4px 12px rgba(169, 206, 163, 0.2);
+}
+
+.search-section {
+  .search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .search-bar {
+    flex: 1;
+    --background: #ffffff;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --placeholder-color: #8a8a8a;
+    --color: #333333;
+    padding: 0;
+    
+    ion-icon {
+      color: #A9CEA3;
+    }
+  }
+  
+  .profile-btn {
+    --color: #ffffff;
+    --background-hover: rgba(255, 255, 255, 0.1);
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0;
+    
+    .profile-icon {
+      font-size: 32px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+  }
+}
+
+// Encabezado de ubicación
+.location-header {
+  padding: 24px 16px 16px;
+  
+  .location-title {
+    margin: 0 0 8px 0;
+    color: #333333;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+  }
+  
+  .location-subtitle {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+}
+
+// Contenedor principal dividido
+.split-content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 220px);
+  padding: 0 16px 16px;
+  gap: 16px;
+  
+  @media (min-width: 768px) {
+    flex-direction: row;
+    height: calc(100vh - 200px);
+  }
+}
+
+/* Tarjeta de encabezado de tienda (logo + nombre) */
+.store-header-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.store-logo {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e6e6e6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.store-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.store-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.store-title {
+  margin: 0;
+  color: #333333;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+}
+
+.store-sub {
+  margin-top: 4px;
+  color: #666666;
+  font-size: 13px;
+}
+
+.stores-header {
+  margin-bottom: 16px;
+  
+  .stores-title {
+    margin: 0 0 12px 0;
+    color: #333333;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  
+  .filter-chip {
+    --background: transparent;
+    --color: #666666;
+    --border-color: #e0e0e0;
+    font-size: 13px;
+    
+    ion-icon {
+      font-size: 14px;
+      margin-right: 4px;
+    }
+  }
+}
+
+// Lista de tiendas
+.stores-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+  }
+}
+
+.store-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 0 0 12px 0;
+  --background: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  
+  &:hover, &:active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+  
+  &.active {
+    border-color: #A9CEA3;
+    background-color: rgba(169, 206, 163, 0.05);
+  }
+}
+
+.store-card-content {
+  display: flex;
+  padding: 12px;
+  gap: 12px;
+}
+
+.store-thumb {
+  flex: 0 0 100px;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  
+  .store-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .store-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    
+    ion-badge {
+      font-weight: 600;
+      font-size: 9px;
+      padding: 3px 6px;
+      border-radius: 10px;
+    }
+  }
+}
+
+.store-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  
+  .store-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    
+    .store-name {
+      margin: 0;
+      color: #333333;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    
+    .store-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      
+      .star-icon {
+        font-size: 14px;
+        color: #FFD700;
+      }
+      
+      .rating-text {
+        font-size: 13px;
+        font-weight: 600;
+        color: #666666;
+      }
+    }
+  }
+  
+  .store-desc {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.4;
+    flex: 1;
+  }
+  
+  .store-details {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    
+    .store-detail {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      
+      .detail-icon {
+        font-size: 14px;
+        color: #A9CEA3;
+      }
+      
+      .detail-text {
+        font-size: 12px;
+        color: #666666;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .more-btn {
+    --background: #A9CEA3;
+    --background-activated: #8BC6A4;
+    --background-hover: #9BD4A3;
+    --color: #ffffff;
+    height: 32px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    align-self: flex-start;
+    
+    &:disabled {
+      --background: #cccccc;
+      --color: #888888;
+    }
+  }
+}
+
+// Panel derecho: Mapa
+.map-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  
+  @media (min-width: 768px) {
+    flex: 0 0 55%;
+    max-width: 55%;
+  }
+}
+
+.map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  
+  .map-title {
+    margin: 0;
+    color: #333333;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}
+
+.map-controls {
+  display: flex;
+  gap: 8px;
+  
+  .map-control-btn {
+    --color: #666666;
+    --background-hover: rgba(0, 0, 0, 0.05);
+    min-width: 36px;
+    min-height: 36px;
+    
+    ion-icon {
+      font-size: 18px;
+    }
+  }
+}
+
+.map-container {
+  flex: 1;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: #e8f5e9;
+  
+  .map-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Marcadores en el mapa
+.map-marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  transition: all 0.3s ease;
+  
+  &.marker-1 {
+    top: 40%;
+    left: 45%;
+  }
+  
+  &.marker-2 {
+    top: 60%;
+    left: 55%;
+  }
+  
+  &.marker-3 {
+    top: 30%;
+    left: 65%;
+  }
+  
+  &.active {
+    z-index: 10;
+    
+    .marker-pin {
+      background: linear-gradient(135deg, #FF6B9D 0%, #FF8E53 100%);
+      transform: scale(1.2);
+      box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
+    }
+    
+    .marker-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .marker-pin {
+    width: 24px;
+    height: 24px;
+    background: #A9CEA3;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .marker-label {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #333333;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+}
+
+.map-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 0 8px;
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      
+      &.open {
+        background: #A9CEA3;
+      }
+      
+      &.closed {
+        background: #FF6B6B;
+      }
+    }
+    
+    .legend-text {
+      font-size: 12px;
+      color: #666666;
+    }
+  }
+}
+
+// Responsive para móviles
+@media (max-width: 767px) {
+  .split-content {
+    height: auto;
+    flex-direction: column;
+  }
+  
+  .stores-panel,
+  .map-panel {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .map-panel {
+    height: 300px;
+    margin-top: 16px;
+  }
+}

@@ -1,18 +1,43 @@
+// tabs.page.ts - Simplificado
 import { Component, EnvironmentInjector, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { triangle, ellipse, square } from 'ionicons/icons';
+import { 
+  homeOutline, 
+  home, 
+  locationOutline, 
+  location, 
+  cartOutline, 
+  cart 
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonTabs,
+    IonTabBar,
+    IonTabButton,
+    IonIcon
+],
 })
 export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);
+  cartCount: number = 3; // Puedes conectar esto con un servicio real
 
   constructor() {
-    addIcons({ triangle, ellipse, square });
+    // Registrar todos los iconos necesarios
+    addIcons({ 
+      homeOutline, 
+      home, 
+      locationOutline, 
+      location, 
+      cartOutline, 
+      cart 
+    });
   }
 }

@@ -1,13 +1,40 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>create-account</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="create-bg">
+  <div class="app-banner">
+    <h2>UberGifts</h2>
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">create-account</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="create-container">
+    <div class="section-title">
+      <h1>CREAR CUENTA</h1>
+    </div>
+
+    <form [formGroup]="form" class="create-form">
+      <ion-item class="input-item">
+        <ion-label position="stacked">Nombre de Usuario</ion-label>
+        <ion-input type="text" formControlName="name" placeholder="Tu nombre"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label position="stacked">Correo Electrónico</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="correo@ejemplo.com"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label position="stacked">Confirmar Contraseña</ion-label>
+        <ion-input type="password" formControlName="confirmPassword" placeholder="••••••••"></ion-input>
+      </ion-item>
+
+      <ion-button class="primary-btn" expand="block" (click)="onSubmit()">Crear Cuenta</ion-button>
+
+      <div class="signup-prompt">
+        <span>¿Ya tienes cuenta?</span>
+        <a class="signup-link" (click)="gotoLogin()">Inicia sesión aquí</a>
+      </div>
+    </form>
+  </div>
 </ion-content>

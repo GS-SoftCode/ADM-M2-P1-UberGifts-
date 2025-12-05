@@ -1,0 +1,39 @@
+<ion-content class="category-bg" [fullscreen]="true">
+  <!-- Header (igual estilo que Tab1) -->
+  <div class="app-banner">
+    <div class="search-section">
+      <div class="search-row">
+        <ion-searchbar 
+          class="search-bar" 
+          placeholder="Buscar productos" 
+          show-clear-button="focus"
+          mode="ios"
+          animated="true">
+        </ion-searchbar>
+        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+          <ion-icon name="person-circle" class="profile-icon"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Título de categoría -->
+  <div class="section-header">
+    <h2 class="section-title">{{ categoryId | titlecase }}</h2>
+  </div>
+
+  <!-- Lista de productos -->
+  <div class="products-list">
+    <ion-card class="product-card" *ngFor="let p of products" (click)="goToDetail(p)">
+      <div class="product-media">
+        <ion-img [src]="p.image" [alt]="p.name" class="product-img"></ion-img>
+        <div class="img-overlay"></div>
+        <div class="product-footer">
+          <img [src]="p.storeIcon" alt="store" class="store-icon" />
+          <span class="product-name">{{ p.name }}</span>
+          <span class="product-rating">{{ p.rating }}★</span>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>

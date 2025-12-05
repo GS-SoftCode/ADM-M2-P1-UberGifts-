@@ -1,57 +1,30 @@
-<ion-content class="ion-padding login-bg">
-  <div class="login-container">
+<ion-content class="login-bg">
+  <div class="app-banner">
+    <h2>UberGifts</h2>
+  </div>
 
-    <!-- Ilustración y bienvenida -->
-    <div class="login-header ion-text-center">
-      <ion-img src="assets/plant-icon.svg" alt="Plant illustration" class="plant-img"></ion-img>
-      <h1>¡Hola!</h1>
-      <p>Bienvenido a UberGifts</p>
+  <div class="login-container">
+    <div class="section-title">
+      <h1>INICIAR SESIÓN</h1>
     </div>
 
-    <!-- Formulario de login -->
-    <ion-card class="login-card">
-      <ion-card-header>
-        <ion-card-title>Login</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
+    <form [formGroup]="loginForm" class="login-form">
+      <ion-item class="input-item">
+        <ion-label position="stacked">Correo Electrónico</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="correo@ejemplo.com"></ion-input>
+      </ion-item>
 
-        <form [formGroup]="loginForm">
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" formControlName="email" placeholder="you@example.com"></ion-input>
-          </ion-item>
+      <ion-item class="input-item">
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
-          </ion-item>
+      <ion-button class="primary-btn" expand="block" (click)="onLogin()">Entrar</ion-button>
 
-          <div class="forgot-password">
-            <ion-button fill="clear" size="small">¿Olvidaste tu contraseña?</ion-button>
-          </div>
-          <ion-button expand="block" type="submit" color="success" (click)="onMenu()">Login</ion-button>
-
-        </form>
-
-        <!-- Divider -->
-        <div class="divider">
-          <span>O inicia sesión con:</span>
-        </div>
-
-        <!-- Social login -->
-        <div class="social-buttons">
-          <ion-button fill="outline" shape="round" color="dark">
-            <ion-icon name="logo-apple" slot="start"></ion-icon>
-          </ion-button>
-        </div>
-
-        <!-- Registro -->
-        <div class="signup-prompt ion-text-center">
-          <span>¿No tienes una Cuenta?</span>
-          <ion-button fill="clear" size="small" (click)="onCreateAccount()">Crear Cuenta</ion-button>
-        </div>
-
-      </ion-card-content>
-    </ion-card>
+      <div class="signup-prompt">
+        <span>¿No tienes cuenta?</span>
+        <a class="signup-link" (click)="onCreateAccount()">Crea una aquí</a>
+      </div>
+    </form>
   </div>
 </ion-content>

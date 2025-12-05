@@ -1,67 +1,118 @@
+/* Palette */
+$mint: #A9CEA3;
+$coral: #E27667;
+$peach: #FDC2AB;
+$sand: #DFD4CE;
+$brick: #B65841;
+
 .login-bg {
-  --background: linear-gradient(to bottom, #e6f4ea, #ffffff);
+  --background: #ffffff; /* pantalla blanca */
 }
 
 .login-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   height: 100%;
+  padding: 24px;
 }
 
-.login-header {
-  margin-top: 32px;
+.app-banner {
+  background: #A9CEA3; /* verde de la paleta */
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #e6e6e6;
 
-  h1 {
-    font-size: 24px;
-    color: #2f8f5b;
-    margin-bottom: 4px;
-  }
-
-  p {
-    font-size: 14px;
-    color: #7a8f8a;
-    margin-bottom: 24px;
-  }
-
-  .plant-img {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 16px;
+  h2 {
+    margin: 0;
+    color: #000000;
+    font-size: 22px;
+    font-weight: 700;
   }
 }
 
-.login-card {
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+.back-btn {
+  --color: #000000;
+  margin-left: -8px;
 }
 
-.forgot-password {
-  text-align: right;
-  margin-top: 4px;
-  margin-bottom: 16px;
-}
-
-.divider {
-  text-align: center;
-  margin: 24px 0;
-  font-size: 13px;
-  color: #9aa3aa;
-}
-
-.social-buttons {
+.section-title {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  margin: 16px 0 8px;
+
+  h1 {
+    margin: 0;
+    color: #000000;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-item {
+  --background: #ffffff;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --inner-padding-end: 12px;
+  border: 1px solid #ece7e3;
+  --color: #000000; /* fuerza color de texto dentro del item */
+  
+  ion-label {
+    color: #000000; /* etiquetas en negro */
+    font-weight: 600;
+  }
+  ion-input {
+    --color: #000000; /* texto del input en negro */
+  }
+  ion-input::part(native) {
+    color: #000000;
+  }
+  ion-input::part(native)::placeholder {
+    color: #000000;
+    opacity: 0.55;
+  }
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.link-btn {
+  --color: #000000;
+  font-weight: 600;
+}
+
+.primary-btn {
+  --background: #000000;
+  --background-activated: #111111;
+  --background-focused: #0a0a0a;
+  --border-radius: 20px;
+  color: #ffffff;
+  font-weight: 700;
+  height: 48px;
+  box-shadow: none;
 }
 
 .signup-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
-  color: #2c2e31;
+  color: #000000;
+}
 
-  ion-button {
-    color: #2f8f5b;
-    font-weight: 600;
-  }
+.signup-link {
+  color: #000000;
+  text-decoration: underline;
+  font-weight: 600;
 }
