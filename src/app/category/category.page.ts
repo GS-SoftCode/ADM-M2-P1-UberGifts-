@@ -1,34 +1,90 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonSearchbar, IonButton, IonIcon, IonImg, IonCard, IonCardContent } from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms';
+import { IonContent, IonSearchbar, IonIcon, IonImg, IonCard, IonButton, PopoverController } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { personCircle } from 'ionicons/icons';
+import { personCircle, search, logOut, person } from 'ionicons/icons';
+import { AuthService } from '../services/auth.service';
+
+interface Product {
+  id: number;
+  name: string;
+  image: string;
+  storeIcon: string;
+  rating: number;
+  price: number;
+  description: string;
+}
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.page.html',
   styleUrls: ['./category.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, IonContent, IonSearchbar, IonButton, IonIcon, IonImg, IonCard]
+  imports: [CommonModule, FormsModule, RouterModule, IonContent, IonSearchbar, IonIcon, IonImg, IonCard]
 })
-export class CategoryPage {
+export class CategoryPage implements OnInit {
   categoryId: string = '';
-  products: Array<{ id: number; name: string; image: string; storeIcon: string; rating: number; price: number; description: string }> = [];
+  searchText: string = '';
+  products: Product[] = [];
+  filteredProducts: Product[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    addIcons({ personCircle });
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router,
+    private authService: AuthService,
+    private popoverController: PopoverController
+  ) {
+    addIcons({ personCircle, search, logOut, person });
   }
 
   ngOnInit() {
     this.categoryId = (this.route.snapshot.paramMap.get('id') || '').toLowerCase();
     this.products = this.getProductsForCategory(this.categoryId);
+    this.filteredProducts = [...this.products];
   }
 
-    private getProductsForCategory(id: string) {
-     const storeIcon = 'assets/icon/LocalDulces.jpg'; // icono común para todas las categorías
-     const datasets: Record<string, Array<{ id: number; name: string; image: string; storeIcon: string; rating: number; price: number; description: string }>> = {
+  async openProfileMenu(event: any) {
+    // Importar el componente dinámicamente
+    const { ProfileMenuComponent } = await import('../tab1/profile-menu/profile-menu.component');
+    
+    const currentUser = this.authService.getCurrentUser();
+    
+    const popover = await this.popoverController.create({
+      component: ProfileMenuComponent,
+      event: event,
+      componentProps: {
+        userEmail: currentUser?.email || 'usuario@example.com',
+        userName: currentUser?.displayName || 'Usuario'
+      },
+      translucent: true,
+      cssClass: 'profile-popover'
+    });
+
+    return await popover.present();
+  }
+
+  onSearchChange(event: any) {
+    const value = event.detail.value?.toLowerCase() || '';
+    this.searchText = value;
+    
+    if (value === '') {
+      // Si la búsqueda está vacía, mostrar todos los productos
+      this.filteredProducts = [...this.products];
+    } else {
+      // Filtrar productos por nombre o descripción
+      this.filteredProducts = this.products.filter(p =>
+        p.name.toLowerCase().includes(value) ||
+        p.description.toLowerCase().includes(value)
+      );
+    }
+  }
+
+  private getProductsForCategory(id: string) {
+    const storeIcon = 'assets/icon/LocalDulces.jpg';
+    const datasets: Record<string, Product[]> = {
       chocolates: [
         { id: 1, name: 'Bombones mixtos', image: 'assets/icon/Chocolates/BombonesMixtos.jpg', storeIcon: storeIcon, rating: 5, price: 0.99, description: 'Selección de bombones surtidos con cacao premium.' },
         { id: 2, name: 'Caja de chocolates', image: 'assets/icon/Chocolates/CajaChocolates.jpg', storeIcon: storeIcon, rating: 4, price: 3.50, description: 'Caja elegante con variedad de chocolates artesanales.' },
@@ -53,7 +109,7 @@ export class CategoryPage {
     return datasets[id] || [];
   }
 
-  goToDetail(p: { id: number; name: string; image: string; storeIcon: string; rating: number; price: number; description: string }) {
+  goToDetail(p: Product) {
     this.router.navigate(['/product', p.id], {
       queryParams: {
         name: p.name,

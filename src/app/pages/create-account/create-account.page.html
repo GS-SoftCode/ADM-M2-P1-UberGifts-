@@ -1,40 +1,142 @@
-<ion-content class="create-bg">
-  <div class="app-banner">
-    <h2>UberGifts</h2>
-  </div>
-
-  <div class="create-container">
-    <div class="section-title">
-      <h1>CREAR CUENTA</h1>
+<ion-content class="create">
+  <div class="layout">
+    <!-- Branding -->
+    <div class="brand">
+      <div class="brand-circle">
+        <img 
+          src="../../../assets/icon/regalo.png" 
+          alt="Logo de Cautelapp" 
+          class="brand-logo" 
+        />
+      </div>
     </div>
 
-    <form [formGroup]="form" class="create-form">
-      <ion-item class="input-item">
-        <ion-label position="stacked">Nombre de Usuario</ion-label>
-        <ion-input type="text" formControlName="name" placeholder="Tu nombre"></ion-input>
-      </ion-item>
+    <!-- Create Account Card -->
+    <div class="card">
+      <h1 class="title">Crear Cuenta</h1>
 
-      <ion-item class="input-item">
-        <ion-label position="stacked">Correo Electrónico</ion-label>
-        <ion-input type="email" formControlName="email" placeholder="correo@ejemplo.com"></ion-input>
-      </ion-item>
+      <form (ngSubmit)="registrarse()" #createForm="ngForm">
+        <!-- Nombre Field -->
+        <ion-item 
+          class="field" 
+          lines="none"
+        >
+          <ion-label position="stacked">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            Nombre
+          </ion-label>
+          <ion-input
+            type="text"
+            name="nombre"
+            placeholder="Tu nombre completo"
+            [(ngModel)]="nombre"
+            required
+            aria-label="Nombre"
+          ></ion-input>
+        </ion-item>
 
-      <ion-item class="input-item">
-        <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
-      </ion-item>
+        <!-- Email Field -->
+        <ion-item 
+          class="field" 
+          lines="none"
+        >
+          <ion-label position="stacked">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            Correo electrónico
+          </ion-label>
+          <ion-input
+            type="email"
+            name="email"
+            placeholder="tu@correo.com"
+            [(ngModel)]="email"
+            inputmode="email"
+            autocomplete="email"
+            required
+            aria-label="Correo electrónico"
+          ></ion-input>
+        </ion-item>
 
-      <ion-item class="input-item">
-        <ion-label position="stacked">Confirmar Contraseña</ion-label>
-        <ion-input type="password" formControlName="confirmPassword" placeholder="••••••••"></ion-input>
-      </ion-item>
+        <!-- Password Field -->
+        <ion-item 
+          class="field" 
+          lines="none"
+        >
+          <ion-label position="stacked">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            Contraseña
+          </ion-label>
+          <ion-input
+            [type]="passwordVisible ? 'text' : 'password'"
+            name="password"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            autocomplete="new-password"
+            required
+            minlength="6"
+            aria-label="Contraseña"
+          >
+            <ion-icon 
+              slot="end"
+              [name]="passwordVisible ? 'eye-off-outline' : 'eye-outline'"
+              class="toggle-icon"
+              (click)="togglePassword()"
+              [attr.aria-label]="passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            ></ion-icon>
+          </ion-input>
+        </ion-item>
 
-      <ion-button class="primary-btn" expand="block" (click)="onSubmit()">Crear Cuenta</ion-button>
+        <!-- Confirm Password Field -->
+        <ion-item 
+          class="field" 
+          lines="none"
+          [class.ion-invalid]="passwordMatchError"
+        >
+          <ion-label position="stacked">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            Confirmar Contraseña
+          </ion-label>
+          <ion-input
+            [type]="passwordVisible ? 'text' : 'password'"
+            name="confirmPassword"
+            placeholder="••••••••"
+            [(ngModel)]="confirmPassword"
+            autocomplete="new-password"
+            required
+            minlength="6"
+            (ionBlur)="validatePasswordMatch()"
+            aria-label="Confirmar Contraseña"
+          ></ion-input>
+        </ion-item>
+        <p 
+          *ngIf="passwordMatchError" 
+          class="error"
+        >{{ passwordMatchError }}</p>
 
-      <div class="signup-prompt">
-        <span>¿Ya tienes cuenta?</span>
-        <a class="signup-link" (click)="gotoLogin()">Inicia sesión aquí</a>
-      </div>
-    </form>
+        <!-- Submit Button -->
+        <ion-button 
+          expand="block" 
+          class="primary" 
+          type="submit"
+          [disabled]="!canSubmit || loading"
+          aria-label="Crear cuenta"
+        >
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Crear Cuenta</span>
+        </ion-button>
+
+        <!-- Login Link -->
+        <p class="aux">
+          ¿Ya tienes cuenta?
+          <button 
+            type="button"
+            class="link" 
+            (click)="goLogin()"
+            aria-label="Ir a inicio de sesión"
+          >
+            Inicia sesión aquí
+          </button>
+        </p>
+      </form>
+    </div>
   </div>
 </ion-content>

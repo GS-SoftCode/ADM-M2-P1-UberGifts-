@@ -1,69 +1,121 @@
 import { Component, OnInit } from '@angular/core';
+import { IonicModule, NavController, ToastController } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonContent, IonItem, IonInput, IonIcon, IonButton, IonImg, IonCheckbox, IonSpinner } from '@ionic/angular/standalone';
-import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonItem, IonInput, IonButton, IonIcon, IonCheckbox, IonSpinner, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, FormsModule, CommonModule],
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  loginForm!: FormGroup;
-  showPassword = false;
+
+  email = '';
+  password = '';
   remember = true;
   loading = false;
+  emailError = '';
+  passwordError = '';
+  passwordVisible = false;
 
-  constructor(private fb: FormBuilder, public navCtrl: NavController, private router: Router) { }
+  constructor(
+    private navCtrl: NavController,
+    private toastCtrl: ToastController,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-  }
-
-  get emailInvalid() {
-    const c = this.loginForm.get('email');
-    return !!c && c.touched && c.invalid;
-  }
-
-  get passwordInvalid() {
-    const c = this.loginForm.get('password');
-    return !!c && c.touched && c.invalid;
-  }
-
-  onCreateAccount() {
-    this.navCtrl.navigateForward('/create-account');
-  }
-
-  onLogin() {
-    if (this.loginForm.invalid || this.loading) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-    this.loading = true;
-    // Simula una breve carga
+  ngOnInit() {
+    // Auto-focus en el campo de email después de que la vista se cargue
     setTimeout(() => {
-      this.loading = false;
-      // Navegación absoluta al árbol de Tabs
-      this.router.navigateByUrl('/tabs/tab1', { replaceUrl: true });
-    }, 800);
+      const emailInput = document.querySelector('ion-input[name="email"]');
+      if (emailInput) {
+        (emailInput as any).setFocus();
+      }
+    }, 300);
   }
 
-  onForgot() {
-    // Navigate to forgot page if exists or show toast
+  get canSubmit(): boolean {
+    return this.email.length > 0 && this.password.length > 0;
   }
 
-  onBack() {
-    this.navCtrl.back();
+  validateEmail() {
+    // Sin validación por ahora
+  }
+
+  validatePassword() {
+    // Sin validación por ahora
   }
 
   togglePassword() {
-    this.showPassword = !this.showPassword;
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  async entrar() {
+    // Validar que haya email y contraseña
+    if (!this.email || !this.password) {
+      await this.showToast('Por favor completa todos los campos', 'warning');
+      return;
+    }
+
+    this.loading = true;
+
+    // Llamar al servicio de autenticación de Firebase
+    this.authService.login(this.email, this.password).subscribe({
+      next: async (response) => {
+        this.loading = false;
+        await this.showToast('¡Bienvenido! Iniciando sesión...', 'success');
+        
+        // Navegar a tabs después de 500ms
+        setTimeout(() => {
+          this.navCtrl.navigateRoot('/tabs', { replaceUrl: true });
+        }, 500);
+      },
+      error: async (error) => {
+        this.loading = false;
+        
+        // Manejo de errores específicos de Firebase
+        let message = 'Error al iniciar sesión. Intenta de nuevo.';
+        
+        if (error.code === 'auth/user-not-found') {
+          message = 'Usuario no encontrado.';
+        } else if (error.code === 'auth/wrong-password') {
+          message = 'Contraseña incorrecta.';
+        } else if (error.code === 'auth/invalid-email') {
+          message = 'Email inválido.';
+        } else if (error.code === 'auth/too-many-requests') {
+          message = 'Demasiados intentos fallidos. Intenta más tarde.';
+        }
+        
+        await this.showToast(message, 'danger');
+      }
+    });
+  }
+
+  goRegister() {
+    this.navCtrl.navigateForward('/create-account');
+  }
+
+  forgotPassword() {
+    // Navegar o mostrar modal de recuperación
+    this.navCtrl.navigateForward('/recuperar');
+  }
+
+  private async showToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color,
+      buttons: [
+        {
+          text: 'Cerrar',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
   }
 }

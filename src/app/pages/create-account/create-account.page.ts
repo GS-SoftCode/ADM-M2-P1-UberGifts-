@@ -1,45 +1,133 @@
 import { Component, OnInit } from '@angular/core';
+import { IonicModule, NavController, ToastController } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/angular/standalone';
-import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-create-account',
-  templateUrl: './create-account.page.html',
-  styleUrls: ['./create-account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonItem, IonLabel, IonInput, IonButton, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, FormsModule, CommonModule],
+  templateUrl: './create-account.page.html',
+  styleUrls: ['./create-account.page.scss']
 })
 export class CreateAccountPage implements OnInit {
-  form!: FormGroup;
 
-  constructor(private fb: FormBuilder, private navCtrl: NavController, private router: Router) { }
+  nombre = '';
+  email = '';
+  password = '';
+  confirmPassword = '';
+  passwordVisible = false;
+  loading = false;
+  passwordMatchError = '';
+
+  constructor(
+    private navCtrl: NavController,
+    private toastCtrl: ToastController,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    this.form = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: this.passwordMatchValidator });
+    // Auto-focus en el campo de nombre después de que la vista se cargue
+    setTimeout(() => {
+      const nombreInput = document.querySelector('ion-input[name="nombre"]');
+      if (nombreInput) {
+        (nombreInput as any).setFocus();
+      }
+    }, 300);
   }
 
-  passwordMatchValidator(group: FormGroup) {
-    const pass = group.get('password')?.value;
-    const confirm = group.get('confirmPassword')?.value;
-    return pass === confirm ? null : { passwordMismatch: true };
+  get canSubmit(): boolean {
+    return (
+      this.nombre.length > 0 &&
+      this.email.length > 0 &&
+      this.password.length >= 6 &&
+      this.password === this.confirmPassword
+    );
   }
 
-  gotoLogin() {
+  togglePassword() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  validatePasswordMatch() {
+    if (this.confirmPassword && this.password !== this.confirmPassword) {
+      this.passwordMatchError = 'Las contraseñas no coinciden';
+    } else {
+      this.passwordMatchError = '';
+    }
+  }
+
+  async registrarse() {
+    // Validar campos vacíos
+    if (!this.nombre || !this.email || !this.password || !this.confirmPassword) {
+      await this.showToast('Por favor completa todos los campos', 'warning');
+      return;
+    }
+
+    // Validar que las contraseñas coincidan
+    if (this.password !== this.confirmPassword) {
+      await this.showToast('Las contraseñas no coinciden', 'danger');
+      return;
+    }
+
+    // Validar longitud mínima de contraseña
+    if (this.password.length < 6) {
+      await this.showToast('La contraseña debe tener al menos 6 caracteres', 'danger');
+      return;
+    }
+
+    this.loading = true;
+
+    // Llamar al servicio de autenticación de Firebase
+    this.authService.register(this.email, this.password, this.nombre).subscribe({
+      next: async (response) => {
+        this.loading = false;
+        await this.showToast('¡Cuenta creada exitosamente! Iniciando sesión...', 'success');
+        
+        // Navegar a tabs después de 1 segundo
+        setTimeout(() => {
+          this.navCtrl.navigateRoot('/tabs', { replaceUrl: true });
+        }, 1000);
+      },
+      error: async (error) => {
+        this.loading = false;
+        
+        // Manejo de errores específicos de Firebase
+        let message = 'Error al crear la cuenta. Intenta de nuevo.';
+        
+        if (error.code === 'auth/email-already-in-use') {
+          message = 'Este email ya está registrado.';
+        } else if (error.code === 'auth/invalid-email') {
+          message = 'Email inválido.';
+        } else if (error.code === 'auth/weak-password') {
+          message = 'La contraseña es demasiado débil.';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          message = 'El registro no está habilitado. Contacta al administrador.';
+        }
+        
+        await this.showToast(message, 'danger');
+      }
+    });
+  }
+
+  goLogin() {
     this.navCtrl.back();
   }
 
-  onSubmit() {
-    if (this.form.invalid) return;
-    // Navegación absoluta al árbol de Tabs
-    this.router.navigateByUrl('/tabs/tab1', { replaceUrl: true });
+  private async showToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color,
+      buttons: [
+        {
+          text: 'Cerrar',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
   }
-
 }

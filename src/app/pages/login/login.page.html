@@ -1,63 +1,116 @@
-<ion-content class="login-bg">
-  <!-- Área para el logo de la app -->
-  <div class="logo-slot">
-    <div class="logo-circle">
-      <ion-icon name="gift-outline" class="logo-icon"></ion-icon>
+<ion-content class="login">
+  <div class="layout">
+    <!-- Branding -->
+    <div class="brand">
+      <div class="brand-circle">
+        <img 
+          src="../../../assets/icon/regalo.png" 
+          alt="Logo de Cautelapp" 
+          class="brand-logo" 
+        />
+      </div>
     </div>
-  </div>
 
-  <div class="login-container">
-    <div class="section-title">
-      <h1>Iniciar Sesión</h1>
-      <p class="subtitle">Bienvenido de nuevo, nos alegra verte.</p>
-    </div>
+    <!-- Login Card -->
+    <div class="card">
+      <h1 class="title">Iniciar sesión</h1>
 
-    <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onLogin()">
-      <div class="field-label">Correo Electrónico</div>
-      <ion-item class="input-item" [class.input-error]="emailInvalid">
-        <ion-input type="email" formControlName="email" placeholder="correo@ejemplo.com"></ion-input>
-      </ion-item>
-      <div class="error-text" *ngIf="emailInvalid">Ingresa un correo válido.</div>
+      <form (ngSubmit)="entrar()" #loginForm="ngForm">
+        <!-- Email Field -->
+        <ion-item 
+          class="field" 
+          lines="none"
+        >
+          <ion-label position="stacked">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            Correo electrónico
+          </ion-label>
+          <ion-input
+            type="email"
+            name="email"
+            placeholder="tu@correo.com"
+            [(ngModel)]="email"
+            inputmode="email"
+            autocomplete="email"
+            aria-label="Correo electrónico"
+          ></ion-input>
+        </ion-item>
 
-      <div class="field-label">Contraseña</div>
-      <ion-item class="input-item" [class.input-error]="passwordInvalid">
-        <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••"></ion-input>
-        <ion-button fill="clear" size="small" class="toggle-pass" (click)="togglePassword()">
-          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        <!-- Password Field -->
+        <ion-item 
+          class="field" 
+          lines="none"
+        >
+          <ion-label position="stacked">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            Contraseña
+          </ion-label>
+          <ion-input
+            [type]="passwordVisible ? 'text' : 'password'"
+            name="password"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            autocomplete="current-password"
+            aria-label="Contraseña"
+          >
+            <ion-icon 
+              slot="end"
+              [name]="passwordVisible ? 'eye-off-outline' : 'eye-outline'"
+              class="toggle-icon"
+              (click)="togglePassword()"
+              [attr.aria-label]="passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            ></ion-icon>
+          </ion-input>
+        </ion-item>
+
+        <!-- Forgot Password -->
+        <div class="forgot-section">
+          <button 
+            type="button"
+            class="link small" 
+            (click)="forgotPassword()"
+            aria-label="Recuperar contraseña"
+          >
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
+
+        <!-- Remember Session -->
+        <div class="remember-section">
+          <ion-checkbox 
+            [(ngModel)]="remember" 
+            name="remember"
+            labelPlacement="end"
+          >
+            Recuérdame
+          </ion-checkbox>
+        </div>
+
+        <!-- Submit Button -->
+        <ion-button 
+          expand="block" 
+          class="primary" 
+          type="submit"
+          [disabled]="!canSubmit || loading"
+          aria-label="Iniciar sesión"
+        >
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Entrar</span>
         </ion-button>
-      </ion-item>
-      <div class="error-text" *ngIf="passwordInvalid">La contraseña debe tener al menos 6 caracteres.</div>
 
-      <div class="options-row">
-        <ion-checkbox [checked]="remember" (ionChange)="remember = $event.detail.checked"></ion-checkbox>
-        <span class="remember-text">Recordarme</span>
-        <button type="button" class="forgot-link" (click)="onForgot()">Olvidé mi contraseña</button>
-      </div>
-
-      <ion-button class="primary-btn" expand="block" type="submit" [disabled]="loginForm.invalid || loading">
-        <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
-        <span *ngIf="!loading">Entrar</span>
-      </ion-button>
-
-      <div class="signup-prompt">
-        <span>¿No tienes cuenta?</span>
-        <a class="signup-link" (click)="onCreateAccount()">Crea una aquí</a>
-      </div>
-
-      <div class="divider">
-        <span>o continúa con</span>
-      </div>
-
-      <div class="social-row">
-        <button type="button" class="social-btn google" aria-label="Continuar con Google">
-          <ion-icon name="logo-google"></ion-icon>
-          <span>Google</span>
-        </button>
-        <button type="button" class="social-btn apple" aria-label="Continuar con Apple">
-          <ion-icon name="logo-apple"></ion-icon>
-          <span>Apple</span>
-        </button>
-      </div>
-    </form>
+        <!-- Register Link -->
+        <p class="aux">
+          ¿No tienes cuenta?
+          <button 
+            type="button"
+            class="link" 
+            (click)="goRegister()"
+            aria-label="Crear cuenta nueva"
+          >
+            Crear una cuenta
+          </button>
+        </p>
+      </form>
+    </div>
   </div>
 </ion-content>

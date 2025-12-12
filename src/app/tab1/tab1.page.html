@@ -9,11 +9,13 @@
           placeholder="Busca regalos, chocolates, flores..." 
           show-clear-button="focus"
           mode="ios"
-          animated="true">
+          animated="true"
+          (ionInput)="onSearchChange($event)"
+          [(ngModel)]="searchText">
         </ion-searchbar>
-        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+        <button class="profile-btn" (click)="openProfileMenu($event)">
           <ion-icon name="person-circle" class="profile-icon"></ion-icon>
-        </ion-button>
+        </button>
       </div>
     </div>
   </div>
@@ -33,75 +35,33 @@
   </div>
 
   <!-- Categorías con título simplificado -->
-  <div class="section-header">
-    <h2 class="section-title">Categorías</h2>
+  <div class="section-header" *ngIf="filteredCategories.length > 0 || searchText === ''">
+    <h2 class="section-title">{{ searchText ? 'Resultados de búsqueda' : 'Categorías' }}</h2>
   </div>
 
   <!-- Grid de categorías mejorado (sin experiencias) -->
-  <div class="categories-grid">
-    <ion-card class="category-card" (click)="onCategory('dulces')">
+  <div class="categories-grid" *ngIf="filteredCategories.length > 0">
+    <ion-card class="category-card" *ngFor="let cat of filteredCategories" (click)="onCategory(cat.id)">
       <div class="card-overlay"></div>
-      <ion-img src="../../assets/icon/Dulces.jpg" alt="Dulces" class="category-bg" loading="lazy"></ion-img>
+      <ion-img [src]="getCategoryImage(cat.id)" [alt]="cat.name" class="category-bg" loading="lazy"></ion-img>
       <ion-card-content class="category-content">
         <div class="category-icon-wrapper">
-          <ion-icon name="ice-cream" class="category-icon"></ion-icon>
+          <ion-icon [name]="cat.icon" class="category-icon"></ion-icon>
         </div>
-        <span class="category-title">Dulces</span>
-        <span class="category-count">12 opciones</span>
+        <span class="category-title">{{ cat.name }}</span>
+        <span class="category-count">{{ cat.count }} opciones</span>
       </ion-card-content>
-      <div class="category-badge">
+      <div class="category-badge" *ngIf="cat.popular">
         <ion-badge color="success">Popular</ion-badge>
       </div>
     </ion-card>
+  </div>
 
-    <ion-card class="category-card" (click)="onCategory('flores')">
-      <div class="card-overlay"></div>
-      <ion-img src="../../assets/icon/Flores.jpg" alt="Flores" class="category-bg" loading="lazy"></ion-img>
-      <ion-card-content class="category-content">
-        <div class="category-icon-wrapper">
-          <ion-icon name="flower" class="category-icon"></ion-icon>
-        </div>
-        <span class="category-title">Flores</span>
-        <span class="category-count">8 arreglos</span>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card class="category-card" (click)="onCategory('peluches')">
-      <div class="card-overlay"></div>
-      <ion-img src="../../assets/icon/Peluches.jpg" alt="Peluches" class="category-bg" loading="lazy"></ion-img>
-      <ion-card-content class="category-content">
-        <div class="category-icon-wrapper">
-          <ion-icon name="paw" class="category-icon"></ion-icon>
-        </div>
-        <span class="category-title">Peluches</span>
-        <span class="category-count">15 modelos</span>
-      </ion-card-content>
-    </ion-card>
-
-    <!-- Categorías adicionales (sin experiencias) -->
-    <ion-card class="category-card" (click)="onCategory('chocolates')">
-      <div class="card-overlay"></div>
-      <ion-img src="https://images.unsplash.com/photo-1511381939415-e44015466834?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chocolates" class="category-bg" loading="lazy"></ion-img>
-      <ion-card-content class="category-content">
-        <div class="category-icon-wrapper">
-          <ion-icon name="cafe" class="category-icon"></ion-icon>
-        </div>
-        <span class="category-title">Chocolates</span>
-        <span class="category-count">10 selecciones</span>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card class="category-card" (click)="onCategory('globos')">
-      <div class="card-overlay"></div>
-      <ion-img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Globos" class="category-bg" loading="lazy"></ion-img>
-      <ion-card-content class="category-content">
-        <div class="category-icon-wrapper">
-          <ion-icon name="balloon" class="category-icon"></ion-icon>
-        </div>
-        <span class="category-title">Globos</span>
-        <span class="category-count">6 diseños</span>
-      </ion-card-content>
-    </ion-card>
+  <!-- Mensaje cuando no hay resultados -->
+  <div *ngIf="searchText && filteredCategories.length === 0" class="no-results">
+    <ion-icon name="search" class="no-results-icon"></ion-icon>
+    <h2>No encontramos "{{ searchText }}"</h2>
+    <p>Intenta con otro término o explora nuestras categorías</p>
   </div>
 
   <!-- Sección de ofertas -->

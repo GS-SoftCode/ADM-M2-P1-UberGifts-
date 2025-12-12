@@ -1,18 +1,20 @@
-<ion-content class="category-bg" [fullscreen]="true">
-  <!-- Header (igual estilo que Tab1) -->
+<ion-content class="home-bg" [fullscreen]="true">
+  <!-- Banner superior simplificado -->
   <div class="app-banner">
     <div class="search-section">
       <div class="search-row">
         <ion-searchbar 
           class="search-bar" 
-          placeholder="Buscar productos" 
+          placeholder="Busca regalos, chocolates, flores..." 
           show-clear-button="focus"
           mode="ios"
-          animated="true">
+          animated="true"
+          (ionInput)="onSearchChange($event)"
+          [(ngModel)]="searchText">
         </ion-searchbar>
-        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+        <button class="profile-btn" (click)="openProfileMenu($event)">
           <ion-icon name="person-circle" class="profile-icon"></ion-icon>
-        </ion-button>
+        </button>
       </div>
     </div>
   </div>
@@ -22,9 +24,9 @@
     <h2 class="section-title">{{ categoryId | titlecase }}</h2>
   </div>
 
-  <!-- Lista de productos -->
-  <div class="products-list">
-    <ion-card class="product-card" *ngFor="let p of products" (click)="goToDetail(p)">
+  <!-- Lista de productos filtrada -->
+  <div class="products-list" *ngIf="filteredProducts.length > 0">
+    <ion-card class="product-card" *ngFor="let p of filteredProducts" (click)="goToDetail(p)">
       <div class="product-media">
         <ion-img [src]="p.image" [alt]="p.name" class="product-img"></ion-img>
         <div class="img-overlay"></div>
@@ -35,5 +37,12 @@
         </div>
       </div>
     </ion-card>
+  </div>
+
+  <!-- Mensaje cuando no hay resultados -->
+  <div *ngIf="searchText && filteredProducts.length === 0" class="no-results">
+    <ion-icon name="search" class="no-results-icon"></ion-icon>
+    <h2>No encontramos "{{ searchText }}"</h2>
+    <p>Intenta con otro término</p>
   </div>
 </ion-content>
