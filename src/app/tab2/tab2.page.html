@@ -1,24 +1,52 @@
-<ion-content class="tab2-bg" [fullscreen]="true">
-  <!-- Banner superior consistente con Tab1 -->
+<ion-content class="home-bg" [fullscreen]="true">
+  <!-- Banner superior simplificado -->
   <div class="app-banner">
     <div class="search-section">
       <div class="search-row">
         <ion-searchbar 
           class="search-bar" 
-          placeholder="Busca tiendas o productos" 
+          placeholder="Busca regalos, chocolates, flores..." 
           show-clear-button="focus"
           mode="ios"
-          animated="true">
+          animated="true"
+          (ionInput)="onSearchChange($event)"
+          [(ngModel)]="searchText">
         </ion-searchbar>
-        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+        <button class="profile-btn" (click)="openProfileMenu($event)">
           <ion-icon name="person-circle" class="profile-icon"></ion-icon>
-        </ion-button>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resultados de búsqueda -->
+  <div class="search-results-container" *ngIf="showResults && searchResults.length > 0">
+    <div class="search-results-list">
+      <div class="search-result-item" 
+           *ngFor="let result of searchResults"
+           (click)="onSelectResult(result)"
+           [ngClass]="result.type === 'category' ? 'result-category' : 'result-product'">
+        <div class="result-icon-wrapper" [ngClass]="{'category-icon': result.type === 'category', 'product-icon': result.type === 'product'}">
+          <ion-icon 
+            *ngIf="result.type === 'category'" 
+            [name]="result.icon"
+            class="result-icon">
+          </ion-icon>
+          <span *ngIf="result.type === 'product'" class="product-icon-text">🎁</span>
+        </div>
+        <div class="result-info">
+          <h4 class="result-name">{{ result.name }}</h4>
+          <span class="result-description">
+            {{ result.type === 'category' ? 'Categoría' : 'Producto' }} • {{ result.description }}
+          </span>
+        </div>
+        <ion-icon name="arrow-forward" class="result-arrow"></ion-icon>
       </div>
     </div>
   </div>
 
   <!-- Zona de contenido dividida mitad y mitad -->
-  <div class="split-content">
+  <div class="split-content" *ngIf="!showResults || searchResults.length === 0">
     <!-- Header de tienda: logo + nombre -->
     <div class="store-header-card">
       <div class="store-logo">

@@ -34,6 +34,32 @@
     </ion-button>
   </div>
 
+  <!-- Pedido en camino -->
+  <ng-container *ngIf="currentOrder$ | async as currentOrder">
+    <div class="current-order-container" *ngIf="!currentOrder.isDelivered" (click)="goToOrderConfirmation()">
+      <div class="order-content">
+        <div class="order-header">
+          <ion-icon name="cube" class="order-icon"></ion-icon>
+          <div class="order-text">
+            <p class="order-label">Pedido en camino</p>
+            <p class="order-number">{{ currentOrder.orderNumber }}</p>
+          </div>
+        </div>
+        <div class="order-details">
+          <div class="detail-item">
+            <span class="detail-label">Tiempo estimado</span>
+            <span class="detail-value">{{ currentOrder.timeRemaining || currentOrder.estimatedTime }} seg</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Total</span>
+            <span class="detail-value">${{ currentOrder.total.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+      <ion-icon name="chevron-forward" class="order-arrow"></ion-icon>
+    </div>
+  </ng-container>
+
   <!-- Categorías con título simplificado -->
   <div class="section-header" *ngIf="filteredCategories.length > 0 || searchText === ''">
     <h2 class="section-title">{{ searchText ? 'Resultados de búsqueda' : 'Categorías' }}</h2>

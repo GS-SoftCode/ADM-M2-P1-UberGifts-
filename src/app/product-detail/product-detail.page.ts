@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonIcon, IonImg, IonCard } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { chevronBack } from 'ionicons/icons';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -20,13 +21,15 @@ export class ProductDetailPage {
   price = 0;
   description = '';
   categoryId = '';
+  fromCart = false;
+  cartId = ''; // Guardar el ID único del carrito cuando viene de tab3
   moreProducts: Array<{ id: number; name: string; image: string; storeIcon: string; rating: number; price: number; description: string }> = [];
 
   // Quantity state
   qty = signal(1);
   total = computed(() => this.qty() * this.price);
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private cartService: CartService) {
     addIcons({ chevronBack });
   }
 
@@ -39,6 +42,14 @@ export class ProductDetailPage {
     this.price = Number(p.get('price') || 0);
     this.description = p.get('description') || 'Descripción no disponible.';
     this.categoryId = (p.get('category') || '').toLowerCase();
+    this.fromCart = p.get('fromCart') === 'true';
+    this.cartId = this.id; // Guardar el ID único (ya viene como categoria-id desde tab3)
+    
+    // Si viene del carrito, establecer la cantidad actual
+    if (this.fromCart) {
+      const currentQty = Number(p.get('currentQuantity') || 1);
+      this.qty.set(currentQty);
+    }
 
     // Build "Más de la tienda" list excluding current product
     if (this.categoryId) {
@@ -72,12 +83,30 @@ export class ProductDetailPage {
   }
 
   addToCart() {
-    console.log('Agregar (diseño) — pendiente integrar con Firebase:', {
-      id: this.id,
-      name: this.name,
-      qty: this.qty(),
-      category: this.categoryId
-    });
+    const storeIcon = 'assets/icon/LocalDulces.jpg';
+    
+    if (this.fromCart) {
+      // Si viene del carrito, actualizar la cantidad existente usando el cartId
+      this.cartService.updateQuantity(this.cartId, this.qty());
+    } else {
+      // Si es un nuevo producto, crear el ID único y agregarlo al carrito
+      const uniqueId = `${this.categoryId}-${this.id}`;
+      this.cartService.addToCart({
+        id: uniqueId,
+        name: this.name,
+        image: this.image,
+        rating: this.rating,
+        price: this.price,
+        description: this.description,
+        category: this.categoryId,
+        quantity: this.qty(),
+        storeIcon: storeIcon
+      });
+    }
+
+    // Reset quantity and navigate to cart
+    this.qty.set(1);
+    this.router.navigate(['/tabs/tab3']);
   }
 
   openOther(p: { id: number; name: string; image: string; storeIcon: string; rating: number; price: number; description: string }) {

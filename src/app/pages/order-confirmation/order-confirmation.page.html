@@ -1,0 +1,73 @@
+<ion-content class="ion-padding-bottom">
+  <!-- Botón regresar fijo arriba-izquierda -->
+  <button class="back-fab" (click)="back()">
+    <ion-icon name="chevron-back"></ion-icon>
+  </button>
+
+  <div class="map-container">
+    <!-- Mapa background -->
+    <div class="map-background">
+      <img src="../../../assets/icon/MapaPedido.jpeg" alt="Map" class="map-image">
+    </div>
+
+    <!-- Tarjeta flotante de confirmación -->
+    <div class="confirmation-card">
+      <!-- Ícono de confirmación -->
+      <div class="success-icon">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </div>
+
+      <!-- Estado de la orden -->
+      <div class="order-status">
+        <h2>Orden confirmada</h2>
+        <p class="order-number">{{ orderNumber }}</p>
+      </div>
+
+      <!-- Divider -->
+      <hr class="divider">
+
+      <!-- Detalles de entrega -->
+      <div class="delivery-info">
+        <div class="delivery-badge">
+          <span class="badge-icon">📦</span>
+          <span class="badge-text">Entrega estimada</span>
+        </div>
+        <p class="delivery-time">{{ timeRemaining || estimatedTime }} seg</p>
+      </div>
+
+      <!-- Dirección -->
+      <div class="address-section">
+        <p class="address-label">Entregar en:</p>
+        <p class="address-text">{{ deliveryAddress }}</p>
+      </div>
+
+      <!-- Divider -->
+      <hr class="divider">
+
+      <!-- Resumen de precio -->
+      <div class="price-section">
+        <p class="price-label">Total de tu compra</p>
+        <p class="price-amount">${{ orderTotal.toFixed(2) }}</p>
+        <p class="price-note">Incluye propina estimada</p>
+      </div>
+
+      <!-- Divider -->
+      <hr class="divider">
+
+      <!-- Fecha y hora -->
+      <div class="order-datetime">
+        <p class="datetime-text">{{ orderDate }}</p>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="action-buttons">
+        <ion-button 
+          expand="block" 
+          class="btn-primary"
+          (click)="continueShoppping()">
+          Seguir comprando
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

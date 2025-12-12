@@ -1,0 +1,188 @@
+<ion-header>
+  <ion-toolbar class="checkout-toolbar">
+    <button class="back-fab" (click)="back()">
+      <ion-icon name="chevron-back"></ion-icon>
+    </button>
+    <ion-title>Finalizar Compra</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="checkout-container">
+    <!-- Resumen del Carrito -->
+    <div class="cart-summary">
+      <h2>Resumen de Compra</h2>
+      <div class="cart-items" *ngIf="(cartItems$ | async) as items">
+        <div class="item" *ngFor="let item of items">
+          <div class="item-info">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-qty">x{{ item.quantity }}</span>
+          </div>
+          <span class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <!-- Desglose de precios -->
+      <div class="price-breakdown">
+        <div class="price-row">
+          <span>Subtotal</span>
+          <span>${{ getCartTotal().toFixed(2) }}</span>
+        </div>
+        <div class="price-row">
+          <span>Envío {{ shippingMethod === 'express' ? '(Express)' : '(Estándar)' }}</span>
+          <span>${{ shippingCost.toFixed(2) }}</span>
+        </div>
+        <div class="price-row total">
+          <span>Total</span>
+          <span>${{ getTotal().toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos de Envío -->
+    <div class="shipping-section">
+      <h2>Datos de Envío</h2>
+
+      <!-- Mostrar ubicación guardada como tarjeta -->
+      <ion-card class="location-display" *ngIf="selectedLocation">
+        <div class="location-header-display">
+          <div class="location-info-display">
+            <h3>{{ selectedLocation.fullName }}</h3>
+            <p class="address-display">{{ selectedLocation.address }}, {{ selectedLocation.city }}</p>
+            <p class="details-display">{{ selectedLocation.email }} • {{ selectedLocation.phone }}</p>
+          </div>
+        </div>
+        <div class="location-actions-display">
+          <ion-button size="small" fill="outline" (click)="openLocationModal()" class="change-location-btn">
+            Cambiar ubicación
+          </ion-button>
+        </div>
+      </ion-card>
+
+      <!-- Mostrar formulario si no hay ubicación guardada -->
+      <div class="shipping-form" *ngIf="!selectedLocation">
+        <ion-label>Nombre Completo</ion-label>
+        <ion-input 
+          [(ngModel)]="fullName"
+          placeholder="Tu nombre"
+          type="text">
+        </ion-input>
+
+        <ion-label>Email</ion-label>
+        <ion-input 
+          [(ngModel)]="email"
+          placeholder="tu@email.com"
+          type="email">
+        </ion-input>
+
+        <ion-label>Teléfono</ion-label>
+        <ion-input 
+          [(ngModel)]="phone"
+          placeholder="Tu teléfono"
+          type="tel">
+        </ion-input>
+
+        <ion-label>Dirección</ion-label>
+        <ion-input 
+          [(ngModel)]="address"
+          placeholder="Calle y número"
+          type="text">
+        </ion-input>
+
+        <ion-label>Ciudad</ion-label>
+        <ion-input 
+          [(ngModel)]="city"
+          placeholder="Tu ciudad"
+          type="text">
+        </ion-input>
+
+        <ion-label>Código Postal</ion-label>
+        <ion-input 
+          [(ngModel)]="zipCode"
+          placeholder="Código postal"
+          type="text">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Método de Envío -->
+    <div class="shipping-method">
+      <h2>Método de Envío</h2>
+      <div class="method-option">
+        <input 
+          type="radio"
+          id="standard"
+          name="shippingMethod"
+          value="standard"
+          [(ngModel)]="shippingMethod"
+          (change)="updateShippingCost()">
+        <label for="standard">
+          <span class="method-name">Envío Estándar</span>
+          <span class="method-price">$0.40</span>
+        </label>
+      </div>
+      <div class="method-option">
+        <input 
+          type="radio"
+          id="express"
+          name="shippingMethod"
+          value="express"
+          [(ngModel)]="shippingMethod"
+          (change)="updateShippingCost()">
+        <label for="express">
+          <span class="method-name">Envío Express</span>
+          <span class="method-price">$5.00</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Método de Pago -->
+    <div class="payment-method">
+      <h2>Método de Pago</h2>
+      <div class="method-option">
+        <input 
+          type="radio"
+          id="credit-card"
+          name="paymentMethod"
+          value="credit-card"
+          [(ngModel)]="paymentMethod">
+        <label for="credit-card">
+          <span class="method-name">Tarjeta de Crédito/Débito</span>
+        </label>
+      </div>
+      <div class="method-option">
+        <input 
+          type="radio"
+          id="paypal"
+          name="paymentMethod"
+          value="paypal"
+          [(ngModel)]="paymentMethod">
+        <label for="paypal">
+          <span class="method-name">PayPal</span>
+        </label>
+      </div>
+      <div class="method-option">
+        <input 
+          type="radio"
+          id="bank-transfer"
+          name="paymentMethod"
+          value="bank-transfer"
+          [(ngModel)]="paymentMethod">
+        <label for="bank-transfer">
+          <span class="method-name">Transferencia Bancaria</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Botón de Compra -->
+    <div class="checkout-actions">
+      <ion-button 
+        expand="block"
+        class="checkout-button"
+        (click)="completeOrder()"
+        [disabled]="!isFormValid()">
+        Completar compra - ${{ getTotal().toFixed(2) }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

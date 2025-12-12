@@ -1,0 +1,121 @@
+<ion-content class="location-modal-content">
+  <!-- Header -->
+  <div class="modal-header">
+    <h2>Mis Ubicaciones</h2>
+    <button class="close-btn" (click)="closeModal()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </div>
+  <div class="location-container">
+    <!-- Lista de ubicaciones guardadas -->
+    <div class="saved-locations" *ngIf="(locations$ | async) as locations">
+      <div *ngIf="locations.length > 0; else noLocations">
+        <h2>Mis Ubicaciones</h2>
+        
+        <ion-card class="location-card" *ngFor="let location of locations">
+          <div class="location-header-card">
+            <div class="location-info">
+              <h3>{{ location.fullName }}</h3>
+              <p class="address">{{ location.address }}, {{ location.city }}</p>
+              <p class="details">{{ location.email }} • {{ location.phone }}</p>
+            </div>
+            <div class="location-actions">
+              <button class="action-btn delete" (click)="deleteLocation(location.id)">
+                <ion-icon name="trash"></ion-icon>
+              </button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <ion-button 
+              size="small" 
+              fill="outline" 
+              (click)="openForm(location)"
+              class="edit-button">
+              Editar
+            </ion-button>
+            <ion-button 
+              size="small"
+              [fill]="location.isDefault ? 'solid' : 'outline'"
+              [class.selected-btn]="location.isDefault"
+              (click)="setDefault(location.id)"
+              class="select-button">
+              {{ location.isDefault ? 'Seleccionada' : 'Seleccionar' }}
+            </ion-button>
+          </div>
+        </ion-card>
+
+        <!-- Botón para agregar otra ubicación -->
+        <div class="add-location-container">
+          <ion-button expand="block" class="add-location-btn" (click)="openForm()">
+            Agregar otra ubicación
+          </ion-button>
+        </div>
+      </div>
+
+      <ng-template #noLocations>
+        <h2>No tienes ubicaciones guardadas</h2>
+        <div class="add-location-container">
+          <ion-button expand="block" class="add-location-btn" (click)="openForm()">
+            Agregar ubicación
+          </ion-button>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Formulario para agregar/editar ubicación -->
+    <div class="location-form" *ngIf="showForm">
+      <h2>{{ editingId ? 'Editar Ubicación' : 'Nueva Ubicación' }}</h2>
+
+      <ion-label>Nombre Completo</ion-label>
+      <ion-input 
+        [(ngModel)]="fullName"
+        placeholder="Tu nombre"
+        type="text">
+      </ion-input>
+
+      <ion-label>Email</ion-label>
+      <ion-input 
+        [(ngModel)]="email"
+        placeholder="tu@email.com"
+        type="email">
+      </ion-input>
+
+      <ion-label>Teléfono</ion-label>
+      <ion-input 
+        [(ngModel)]="phone"
+        placeholder="Tu teléfono"
+        type="tel">
+      </ion-input>
+
+      <ion-label>Dirección</ion-label>
+      <ion-input 
+        [(ngModel)]="address"
+        placeholder="Calle y número"
+        type="text">
+      </ion-input>
+
+      <ion-label>Ciudad</ion-label>
+      <ion-input 
+        [(ngModel)]="city"
+        placeholder="Tu ciudad"
+        type="text">
+      </ion-input>
+
+      <ion-label>Código Postal</ion-label>
+      <ion-input 
+        [(ngModel)]="zipCode"
+        placeholder="Código postal"
+        type="text">
+      </ion-input>
+
+      <div class="form-actions">
+        <ion-button expand="block" class="save-btn" (click)="saveLocation()" [disabled]="!isFormValid()">
+          {{ editingId ? 'Actualizar Ubicación' : 'Guardar Ubicación' }}
+        </ion-button>
+        <ion-button expand="block" fill="outline" (click)="closeForm()">
+          Cancelar
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

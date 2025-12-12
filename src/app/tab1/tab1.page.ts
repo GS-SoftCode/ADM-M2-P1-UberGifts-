@@ -27,10 +27,12 @@ import {
   heart, 
   search,
   logOut,
-  person
-} from 'ionicons/icons';
+  person,
+  cube, chevronForward } from 'ionicons/icons';
 import { AuthService } from '../services/auth.service';
+import { OrderService, CurrentOrder } from '../services/order.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 interface Category {
   id: string;
@@ -63,35 +65,38 @@ export class Tab1Page implements OnInit {
   showPromo: boolean = true;
   searchText: string = '';
   filteredCategories: Category[] = [];
+  currentOrder$!: Observable<CurrentOrder | null>;
   
   categories: Category[] = [
     { id: 'dulces', name: 'Dulces', count: 12, popular: true, icon: 'ice-cream' },
     { id: 'flores', name: 'Flores', count: 8, popular: false, icon: 'flower' },
     { id: 'peluches', name: 'Peluches', count: 15, popular: false, icon: 'paw' },
     { id: 'chocolates', name: 'Chocolates', count: 10, popular: false, icon: 'cafe' },
-    { id: 'globos', name: 'Globos', count: 6, popular: false, icon: 'balloon' },
   ];
 
   categoryImages: Record<string, string> = {
     'dulces': '../../assets/icon/Dulces.jpg',
     'flores': '../../assets/icon/Flores.jpg',
     'peluches': '../../assets/icon/Peluches.jpg',
-    'chocolates': 'https://images.unsplash.com/photo-1511381939415-e44015466834?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    'globos': 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    'chocolates': 'https://images.unsplash.com/photo-1511381939415-e44015466834?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   };
 
   constructor(
     private authService: AuthService,
+    private orderService: OrderService,
     private popoverController: PopoverController,
     private router: Router
   ) {
     // Registrar iconos necesarios
-    addIcons({personCircle,gift,close,search,rocket,heart,iceCream,flower,paw,cafe,balloon,logOut,person});
+    addIcons({personCircle,gift,close,search,rocket,heart,iceCream,flower,paw,cafe,balloon,logOut,person,cube,chevronForward});
   }
 
   ngOnInit() {
     // Mostrar todas las categorías al inicio
     this.filteredCategories = [...this.categories];
+    
+    // Suscribirse a los cambios del pedido actual
+    this.currentOrder$ = this.orderService.currentOrder$;
     
     // Ocultar promo después de 10 segundos
     setTimeout(() => {
@@ -149,6 +154,10 @@ export class Tab1Page implements OnInit {
     window.location.assign(`/tabs/category/${key}`);
     // Feedback táctil
     this.vibrate();
+  }
+
+  goToOrderConfirmation() {
+    this.router.navigate(['/order-confirmation']);
   }
 
   private vibrate() {

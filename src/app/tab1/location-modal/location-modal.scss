@@ -1,0 +1,254 @@
+.location-modal-content {
+  --background: #f7fafc;
+  --padding: 0;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 16px;
+  background: linear-gradient(135deg, #B195C9 0%, #9B6B9E 100%);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    ion-icon {
+      font-size: 24px;
+      color: white;
+    }
+  }
+}
+
+.location-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.saved-locations {
+  h2 {
+    color: #1A202C;
+    font-weight: 600;
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+}
+
+.location-card {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  .location-header-card {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+
+    .location-info {
+      flex: 1;
+
+      h3 {
+        margin: 0 0 8px 0;
+        color: #1A202C;
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      .address {
+        margin: 0 0 6px 0;
+        color: #4A5568;
+        font-size: 14px;
+      }
+
+      .details {
+        margin: 0;
+        color: #718096;
+        font-size: 12px;
+      }
+    }
+
+    .location-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+
+      .action-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: #F7FAFC;
+        color: #718096;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #EDF2F7;
+        }
+
+        &.delete {
+          &:hover {
+            background: #FED7D7;
+            color: #E53E3E;
+          }
+        }
+
+        ion-icon {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .card-footer {
+    padding: 0 16px 12px 16px;
+    display: flex;
+    gap: 8px;
+
+    ion-button {
+      flex: 1;
+      text-transform: none;
+    }
+
+    .edit-button {
+      --color: #B195C9;
+      --border-color: #B195C9;
+    }
+
+    .select-button {
+      &.selected-btn {
+        --background: linear-gradient(135deg, #B195C9, #9B6B9E);
+        --color: white;
+      }
+
+      &:not(.selected-btn) {
+        --color: #B195C9;
+        --border-color: #B195C9;
+      }
+    }
+  }
+}
+
+.add-location-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  .add-location-btn {
+    --background: linear-gradient(135deg, #B195C9, #9B6B9E);
+    --color: white;
+    font-weight: 600;
+    text-transform: none;
+  }
+}
+
+.location-form {
+  background: #F7FAFC;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+
+  h2 {
+    color: #1A202C;
+    font-weight: 600;
+    margin-bottom: 16px;
+    margin-top: 0;
+  }
+
+  ion-label {
+    display: block;
+    color: #1A202C;
+    font-weight: 500;
+    margin-bottom: 8px;
+    margin-top: 12px;
+    font-size: 14px;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  ion-input {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    --background: white;
+    margin-bottom: 4px;
+
+    &::part(native) {
+      font-size: 14px;
+      color: #1A202C;
+    }
+
+    &::placeholder {
+      color: #718096;
+    }
+  }
+
+  .form-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .save-btn {
+      --background: linear-gradient(135deg, #B195C9, #9B6B9E);
+      --color: white;
+      font-weight: 600;
+      text-transform: none;
+
+      &:disabled {
+        --background: #CBD5E0;
+        opacity: 0.6;
+      }
+    }
+
+    ion-button {
+      text-transform: none;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .location-container {
+    padding: 12px 8px;
+  }
+
+  .location-form {
+    padding: 12px;
+  }
+
+  .location-card .location-header-card {
+    padding: 12px;
+  }
+}

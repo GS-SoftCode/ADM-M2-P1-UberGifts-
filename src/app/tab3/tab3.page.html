@@ -1,55 +1,103 @@
-<ion-content class="category-bg" [fullscreen]="true">
-  <!-- Banner buscador + perfil -->
+<ion-content class="home-bg" [fullscreen]="true">
+  <!-- Banner superior simplificado -->
   <div class="app-banner">
     <div class="search-section">
       <div class="search-row">
         <ion-searchbar 
           class="search-bar" 
-          placeholder="Buscar en carrito" 
+          placeholder="Busca regalos, chocolates, flores..." 
           show-clear-button="focus"
           mode="ios"
-          animated="true">
+          animated="true"
+          (ionInput)="onSearchChange($event)"
+          [(ngModel)]="searchText">
         </ion-searchbar>
-        <ion-button class="profile-btn" fill="clear" routerLink="/profile">
+        <button class="profile-btn" (click)="openProfileMenu($event)">
           <ion-icon name="person-circle" class="profile-icon"></ion-icon>
-        </ion-button>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Título -->
-  <div class="section-header">
-    <h2 class="section-title">Tu carrito</h2>
+  <!-- Resultados de búsqueda -->
+  <div class="search-results-container" *ngIf="showResults && searchResults.length > 0">
+    <div class="search-results-list">
+      <div class="search-result-item" 
+           *ngFor="let result of searchResults"
+           (click)="onSelectResult(result)"
+           [ngClass]="result.type === 'category' ? 'result-category' : 'result-product'">
+        <div class="result-icon-wrapper" [ngClass]="{'category-icon': result.type === 'category', 'product-icon': result.type === 'product'}">
+          <ion-icon 
+            *ngIf="result.type === 'category'" 
+            [name]="result.icon"
+            class="result-icon">
+          </ion-icon>
+          <span *ngIf="result.type === 'product'" class="product-icon-text">🎁</span>
+        </div>
+        <div class="result-info">
+          <h4 class="result-name">{{ result.name }}</h4>
+          <span class="result-description">
+            {{ result.type === 'category' ? 'Categoría' : 'Producto' }} • {{ result.description }}
+          </span>
+        </div>
+        <ion-icon name="arrow-forward" class="result-arrow"></ion-icon>
+      </div>
+    </div>
   </div>
 
-  <!-- Botón comprar -->
-  <div class="cart-actions">
-    <ion-button class="buy-btn" shape="round">Comprar</ion-button>
-  </div>
+  <!-- Zona de contenido dividida mitad y mitad -->
+  <div class="split-content">
+    <!-- Título -->
+    <div class="section-header">
+      <h2 class="section-title">Tu carrito</h2>
+    </div>
 
-  <!-- Lista de productos (diseño estático igual a Category) -->
-  <div class="products-list">
-    <ion-card class="product-card">
-      <div class="product-media">
-        <ion-img src="assets/icon/Dulces/Suspiros.jpeg" alt="Suspiros" class="product-img"></ion-img>
-        <div class="img-overlay"></div>
-        <div class="product-footer">
-          <img src="assets/icon/LocalDulces.jpg" alt="store" class="store-icon" />
-          <span class="product-name">Suspiros</span>
-          <span class="product-rating">5★</span>
+    <!-- Mensaje de carrito vacío -->
+    <div *ngIf="(cartItems$ | async)?.length === 0" class="empty-cart">
+      <p>Tu carrito está vacío</p>
+      <ion-button class="continue-shopping" routerLink="/tabs/tab1">Continuar comprando</ion-button>
+    </div>
+
+    <!-- Botón comprar -->
+    <div class="cart-actions" *ngIf="(cartItems$ | async)?.length! > 0">
+      <ion-button class="buy-btn" shape="round" routerLink="/checkout">Comprar ahora</ion-button>
+    </div>
+
+    <!-- Lista de productos -->
+    <div class="products-list" *ngIf="(cartItems$ | async) as items">
+      <ion-card class="product-card" *ngFor="let product of (filteredItems$ | async)" (click)="openProductDetail(product)">
+        <div class="product-media">
+          <ion-img [src]="product.image" [alt]="product.name" class="product-img"></ion-img>
+          <div class="img-overlay"></div>
+          <div class="product-footer">
+            <img [src]="product.storeIcon" alt="store" class="store-icon" />
+            <div class="product-info">
+              <span class="product-name">{{ product.name }}</span>
+              <span class="product-price">${{ product.price | number:'1.2-2' }}</span>
+            </div>
+            <span class="product-rating">{{ product.rating }}★</span>
+          </div>
+          <div class="product-total">${{ (product.price * product.quantity) | number:'1.2-2' }}</div>
+          <div class="product-quantity">{{ product.quantity }}</div>
+          <button class="remove-btn" (click)="removeItem(product.id, $event)">
+            <ion-icon name="close"></ion-icon>
+          </button>
         </div>
+      </ion-card>
+
+      <!-- Botón para agregar más productos -->
+      <div class="add-more-container">
+        <ion-button class="add-more-btn" (click)="addMoreProducts()" shape="round">
+          <ion-icon name="add-circle" slot="start"></ion-icon>
+          Agregar más productos
+        </ion-button>
       </div>
-    </ion-card>
-    <ion-card class="product-card">
-      <div class="product-media">
-        <ion-img src="assets/icon/Dulces/Pristiños.png" alt="Pristiños" class="product-img"></ion-img>
-        <div class="img-overlay"></div>
-        <div class="product-footer">
-          <img src="assets/icon/LocalDulces.jpg" alt="store" class="store-icon" />
-          <span class="product-name">Pristiños</span>
-          <span class="product-rating">4★</span>
-        </div>
-      </div>
-    </ion-card>
+    </div>
+
+    <!-- Resumen de subtotal -->
+    <div class="subtotal-summary" *ngIf="(cartItems$ | async)?.length! > 0">
+      <span class="subtotal-label">Subtotal</span>
+      <span class="subtotal-value">${{ getTotalPrice() | number:'1.2-2' }}</span>
+    </div>
   </div>
 </ion-content>

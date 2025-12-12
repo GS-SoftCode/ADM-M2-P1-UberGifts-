@@ -1,0 +1,289 @@
+ion-content {
+  --background: white;
+  --padding: 0;
+}
+
+// Botón regresar fijo arriba-izquierda
+.back-fab {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #9B6B9E;
+  background: linear-gradient(135deg, #B195C9 0%, #9B6B9E 100%);
+  box-shadow: 0 4px 12px rgba(177, 149, 201, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(177, 149, 201, 0.3);
+  }
+
+  ion-icon {
+    font-size: 20px;
+    color: #fff;
+  }
+}
+
+ion-content {
+  --background: white;
+  --padding: 0;
+
+  .map-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+
+    .map-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .map-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 1;
+      }
+    }
+
+    .confirmation-card {
+      position: relative;
+      width: 100%;
+      background: white;
+      border-radius: 24px 24px 0 0;
+      padding: 28px 20px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+      max-height: 60vh;
+      overflow-y: auto;
+      animation: slideUp 0.4s ease-out;
+
+      @media (max-width: 480px) {
+        padding: 20px 16px;
+        border-radius: 20px 20px 0 0;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      // Success Icon
+      .success-icon {
+        text-align: center;
+        margin-bottom: 20px;
+
+        ion-icon {
+          font-size: 60px;
+          color: #48bb78;
+          animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+          from {
+            transform: scale(0.5);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      }
+
+      // Order Status
+      .order-status {
+        text-align: center;
+        margin-bottom: 20px;
+
+        h2 {
+          font-size: 24px;
+          font-weight: 700;
+          color: #1a202c;
+          margin: 0 0 8px 0;
+
+          @media (max-width: 480px) {
+            font-size: 20px;
+          }
+        }
+
+        .order-number {
+          font-size: 14px;
+          color: #718096;
+          margin: 0;
+          font-family: 'Courier New', monospace;
+          letter-spacing: 1px;
+        }
+      }
+
+      // Divider
+      .divider {
+        border: none;
+        border-top: 1px solid #e2e8f0;
+        margin: 16px 0;
+        padding: 0;
+      }
+
+      // Delivery Info
+      .delivery-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+
+        .delivery-badge {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          .badge-icon {
+            font-size: 24px;
+          }
+
+          .badge-text {
+            font-size: 14px;
+            color: #718096;
+            font-weight: 500;
+          }
+        }
+
+        .delivery-time {
+          font-size: 20px;
+          font-weight: 700;
+          color: #B195C9;
+          margin: 0;
+        }
+      }
+
+      // Address Section
+      .address-section {
+        padding: 16px 0;
+
+        .address-label {
+          font-size: 12px;
+          color: #a0aec0;
+          text-transform: none;
+          letter-spacing: 0.5px;
+          margin: 0 0 8px 0;
+          font-weight: 600;
+        }
+
+        .address-text {
+          font-size: 14px;
+          color: #1a202c;
+          margin: 0;
+          font-weight: 500;
+          line-height: 1.5;
+        }
+      }
+
+      // Price Section
+      .price-section {
+        padding: 16px 0;
+        text-align: right;
+
+        .price-label {
+          font-size: 12px;
+          color: #a0aec0;
+          text-transform: none;
+          letter-spacing: 0.5px;
+          margin: 0;
+          font-weight: 600;
+        }
+
+        .price-amount {
+          font-size: 28px;
+          font-weight: 700;
+          color: #B195C9;
+          margin: 8px 0 4px 0;
+
+          @media (max-width: 480px) {
+            font-size: 24px;
+          }
+        }
+
+        .price-note {
+          font-size: 12px;
+          color: #718096;
+          margin: 0;
+          font-style: italic;
+        }
+      }
+
+      // DateTime
+      .order-datetime {
+        padding: 12px 0;
+        text-align: center;
+
+        .datetime-text {
+          font-size: 12px;
+          color: #1a202c;
+          margin: 0;
+          font-weight: 500;
+        }
+      }
+
+      // Action Buttons
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+
+        @media (max-width: 480px) {
+          margin-top: 20px;
+        }
+
+        ion-button {
+          --border-radius: 12px;
+          --padding-top: 12px;
+          --padding-bottom: 12px;
+          font-weight: 600;
+          font-size: 15px;
+          text-transform: none;
+
+          &.btn-primary {
+            --background: linear-gradient(135deg, #B195C9 0%, #9B6B9E 100%);
+            --color: white;
+
+            &:hover {
+              --background: linear-gradient(135deg, #9B6B9E 0%, #8B5B8E 100%);
+            }
+          }
+
+          &.btn-secondary {
+            --background: transparent;
+            --border: 2px solid #B195C9;
+            --color: #B195C9;
+
+            &:hover {
+              --background: rgba(177, 149, 201, 0.1);
+            }
+          }
+        }
+      }
+    }
+  }
+}

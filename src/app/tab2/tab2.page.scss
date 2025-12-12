@@ -15,12 +15,11 @@ $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
-// tab2.page.scss - Mejorado
-.tab2-bg {
-  --background: #f8f9fa;
+.home-bg {
+  --background: #{$white};
 }
 
-// Banner superior consistente con Tab1
+// Banner superior simplificado (sin ubicación)
 .app-banner {
   background: linear-gradient(135deg, #{$purple-dark} 0%, #{$purple-pastel} 100%);
   padding: 16px 12px 20px;
@@ -31,37 +30,102 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .search-section {
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  
   .search-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    gap: 6px;
     width: 100%;
+    min-height: 44px;
+    flex-wrap: nowrap;
+    overflow: hidden;
   }
   
   .search-bar {
     flex: 1;
-    --background: #ffffff;
+    min-width: 0;
+    max-width: calc(100% - 50px);
+    --background: #{$white};
     --border-radius: 12px;
     --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --placeholder-color: #8a8a8a;
-    --color: #333333;
-    padding: 0;
+    --placeholder-color: #{$muted};
+    --color: #{$text};
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --clear-button-color: #{$purple-pastel};
+    padding: 0 !important;
+    height: 36px;
+    margin: 0 !important;
+    overflow: hidden;
+    
+    ::ng-deep {
+      .searchbar-input-container {
+        padding: 0 8px;
+        overflow: hidden;
+      }
+      
+      .searchbar-search-icon {
+        margin-inline-start: 0;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+      }
+      
+      .searchbar-input {
+        overflow: hidden;
+        
+        &:not(:placeholder-shown) ~ .searchbar-search-icon,
+        &:focus ~ .searchbar-search-icon {
+          transform: translateX(-30px);
+          opacity: 0;
+          pointer-events: none;
+        }
+      }
+      
+      ion-icon {
+        max-width: 20px;
+      }
+    }
     
     ion-icon {
-      color: #A9CEA3;
+      color: #{$purple-pastel};
+      font-size: 18px;
+      flex-shrink: 0;
     }
   }
   
   .profile-btn {
-    --color: #ffffff;
-    --background-hover: rgba(255, 255, 255, 0.1);
-    min-width: 44px;
-    min-height: 44px;
-    margin: 0;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    min-width: 52px;
+    min-height: 52px;
+    
+    &:hover,
+    &:focus {
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+    }
+    
+    &:active {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(0.95);
+    }
     
     .profile-icon {
-      font-size: 32px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      font-size: 52px;
+      color: #{$white};
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
     }
   }
 }
@@ -491,8 +555,153 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   }
 }
 
-// Responsive para móviles
-@media (max-width: 767px) {
+// Resultados de búsqueda
+.search-results-container {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - 100px);
+  background: #{$white};
+  z-index: 1000;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 0 0 16px 16px;
+}
+
+.search-results-list {
+  padding: 8px 0;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #{$border};
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background: rgba(177, 149, 201, 0.05);
+  }
+  
+  &:active {
+    background: rgba(177, 149, 201, 0.1);
+  }
+  
+  &.result-category {
+    .result-icon-wrapper {
+      background: rgba(177, 149, 201, 0.1);
+    }
+  }
+  
+  &.result-product {
+    .result-icon-wrapper {
+      background: rgba(155, 107, 158, 0.1);
+    }
+  }
+}
+
+.result-icon-wrapper {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  
+  &.category-icon {
+    background: rgba(177, 149, 201, 0.15);
+  }
+  
+  &.product-icon {
+    background: rgba(155, 107, 158, 0.15);
+  }
+}
+
+.result-icon {
+  font-size: 20px;
+  color: #{$purple-dark};
+}
+
+.product-icon-text {
+  font-size: 20px;
+}
+
+.result-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.result-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #{$text};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-description {
+  font-size: 12px;
+  color: #{$muted};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-arrow {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: #{$purple-pastel};
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .app-banner {
+    padding: 12px 8px 16px;
+  }
+  
+  .search-section {
+    .search-row {
+      gap: 6px;
+    }
+    
+    .search-bar {
+      max-width: calc(100% - 48px);
+      height: 36px;
+      font-size: 14px;
+      
+      ::ng-deep {
+        .searchbar-input-container input {
+          font-size: 14px;
+        }
+      }
+    }
+    
+    .profile-btn {
+      width: 52px;
+      height: 52px;
+      min-width: 52px;
+      min-height: 52px;
+      
+      .profile-icon {
+        font-size: 52px;
+      }
+    }
+  }
+  
   .split-content {
     height: auto;
     flex-direction: column;
@@ -507,5 +716,49 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   .map-panel {
     height: 300px;
     margin-top: 16px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+  .app-banner {
+    padding: 14px 12px 18px;
+  }
+  
+  .search-section {
+    .search-row {
+      gap: 8px;
+    }
+    
+    .search-bar {
+      height: 40px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .app-banner {
+    padding: 18px 20px 24px;
+  }
+  
+  .search-section {
+    .search-row {
+      gap: 12px;
+    }
+  }
+}
+
+// Estilo del popover de perfil
+::ng-deep {
+  .profile-popover {
+    --background: transparent !important;
+    
+    ion-popover-core {
+      --background: transparent;
+    }
+    
+    .popover-content {
+      background: transparent;
+      box-shadow: none;
+    }
   }
 }

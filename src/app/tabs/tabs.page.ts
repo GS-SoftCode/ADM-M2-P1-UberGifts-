@@ -1,5 +1,5 @@
-// tabs.page.ts - Simplificado
-import { Component, EnvironmentInjector, inject } from '@angular/core';
+// tabs.page.ts
+import { Component, EnvironmentInjector, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -11,6 +11,7 @@ import {
   cartOutline, 
   cart 
 } from 'ionicons/icons';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-tabs',
@@ -25,11 +26,11 @@ import {
     IonIcon
 ],
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
   public environmentInjector = inject(EnvironmentInjector);
-  cartCount: number = 3; // Puedes conectar esto con un servicio real
+  cartCount: number = 0;
 
-  constructor() {
+  constructor(private cartService: CartService) {
     // Registrar todos los iconos necesarios
     addIcons({ 
       homeOutline, 
@@ -38,6 +39,14 @@ export class TabsPage {
       location, 
       cartOutline, 
       cart 
+    });
+  }
+
+  ngOnInit() {
+    // Suscribirse a los cambios del carrito
+    this.cartService.cartItems$.subscribe((items) => {
+      // Contar solo los productos diferentes (contenedores), no la cantidad total
+      this.cartCount = items.length;
     });
   }
 }

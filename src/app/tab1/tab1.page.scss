@@ -71,10 +71,18 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       .searchbar-search-icon {
         margin-inline-start: 0;
         flex-shrink: 0;
+        transition: all 0.3s ease;
       }
       
       .searchbar-input {
         overflow: hidden;
+        
+        &:not(:placeholder-shown) ~ .searchbar-search-icon,
+        &:focus ~ .searchbar-search-icon {
+          transform: translateX(-30px);
+          opacity: 0;
+          pointer-events: none;
+        }
       }
       
       ion-icon {
@@ -166,6 +174,111 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   .promo-close {
     --color: #{$white};
     --background-hover: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Contenedor del pedido en camino
+.current-order-container {
+  margin: 16px 16px;
+  padding: 16px;
+  background: #{$white};
+  border: 2px solid #{$purple-dark};
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: slideDown 0.4s ease-out;
+
+  &:hover {
+    background: rgba(177, 149, 201, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(177, 149, 201, 0.15);
+  }
+
+  .order-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .order-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .order-icon {
+        font-size: 28px;
+        color: #{$purple-dark};
+      }
+
+      .order-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .order-label {
+          font-size: 12px;
+          color: #{$muted};
+          margin: 0;
+          font-weight: 600;
+          text-transform: none;
+          letter-spacing: 0.5px;
+        }
+
+        .order-number {
+          font-size: 16px;
+          color: #{$text};
+          margin: 0;
+          font-weight: 700;
+          font-family: 'Courier New', monospace;
+        }
+      }
+    }
+
+    .order-details {
+      display: flex;
+      gap: 16px;
+      padding-left: 40px;
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .detail-label {
+          font-size: 11px;
+          color: #{$muted};
+          font-weight: 600;
+          text-transform: none;
+          letter-spacing: 0.3px;
+        }
+
+        .detail-value {
+          font-size: 14px;
+          color: #{$purple-dark};
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .order-arrow {
+    font-size: 24px;
+    color: #{$purple-dark};
+    margin-left: 12px;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 

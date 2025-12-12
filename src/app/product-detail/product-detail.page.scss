@@ -1,6 +1,6 @@
 .detail-bg { --background: #fff; background: #fff; }
-.back-fab { position: fixed; top: 12px; left: 12px; z-index: 10; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #8fb78c; background: #A9CEA3; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; }
-.back-fab ion-icon { font-size: 20px; color: #000; }
+.back-fab { position: fixed; top: 12px; left: 12px; z-index: 10; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #9B6B9E; background: linear-gradient(135deg, #B195C9 0%, #9B6B9E 100%); box-shadow: 0 4px 12px rgba(177, 149, 201, 0.2); display: flex; align-items: center; justify-content: center; }
+.back-fab ion-icon { font-size: 20px; color: #fff; }
 .hero-image { width: 100%; height: 220px; overflow: hidden; }
 .hero-image ion-img { width: 100%; height: 100%; object-fit: cover; }
 .info-block { padding: 16px; color: #000; }
@@ -22,7 +22,9 @@
 .product-rating { font-weight: 700; }
 .order-bar { position: fixed; left: 0; right: 0; bottom: 0; height: 64px; background: #fff; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 0 16px; }
 .qty { display: flex; align-items: center; gap: 10px; }
-.qty-btn { width: 36px; height: 36px; border-radius: 8px; border: none; background: #fff; font-size: 20px; line-height: 1; color: #000; }
-.qty-val { min-width: 48px; padding: 6px 12px; text-align: center; font-weight: 700; border: 2px solid #000; border-radius: 10px; background: #fff; color: #000; }
-.order-price { font-size: 18px; font-weight: 700; text-align: center; color: #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.add-btn { background: #A9CEA3; color: #000; border: none; border-radius: 10px; padding: 10px 16px; font-weight: 600; }
+.qty-btn { width: 36px; height: 36px; border-radius: 8px; border: none; background: #f5f5f5; font-size: 20px; line-height: 1; color: #B195C9; transition: all 0.3s ease; }
+.qty-btn:active { background: #E2D5ED; color: #9B6B9E; }
+.qty-val { min-width: 48px; padding: 6px 12px; text-align: center; font-weight: 700; border: 2px solid #B195C9; border-radius: 10px; background: #FFF8FC; color: #B195C9; }
+.order-price { font-size: 18px; font-weight: 700; text-align: center; color: #B195C9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.add-btn { background: linear-gradient(135deg, #B195C9 0%, #9B6B9E 100%); color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-weight: 600; transition: all 0.3s ease; }
+.add-btn:active { transform: scale(0.95); box-shadow: 0 4px 12px rgba(177, 149, 201, 0.3); }

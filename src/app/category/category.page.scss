@@ -71,10 +71,18 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       .searchbar-search-icon {
         margin-inline-start: 0;
         flex-shrink: 0;
+        transition: all 0.3s ease;
       }
       
       .searchbar-input {
         overflow: hidden;
+        
+        &:not(:placeholder-shown) ~ .searchbar-search-icon,
+        &:focus ~ .searchbar-search-icon {
+          transform: translateX(-30px);
+          opacity: 0;
+          pointer-events: none;
+        }
       }
       
       ion-icon {
