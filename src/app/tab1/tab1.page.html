@@ -20,8 +20,30 @@
     </div>
   </div>
 
+  <!-- Resultados de búsqueda (categorías y productos) -->
+  <div class="search-results-container" *ngIf="showResults && searchResults.length > 0">
+    <div class="search-results-list">
+      <div class="search-result-item"
+           *ngFor="let result of searchResults"
+           (click)="onSelectResult(result)"
+           [ngClass]="result.type === 'category' ? 'result-category' : 'result-product'">
+        <div class="result-icon-wrapper" [ngClass]="{'category-icon': result.type === 'category', 'product-icon': result.type === 'product'}">
+          <ion-icon *ngIf="result.type === 'category'" [name]="result.icon" class="result-icon"></ion-icon>
+          <span *ngIf="result.type === 'product'" class="product-icon-text">🎁</span>
+        </div>
+        <div class="result-info">
+          <h4 class="result-name">{{ result.name }}</h4>
+          <span class="result-description">
+            {{ result.type === 'category' ? 'Categoría' : 'Producto' }} • {{ result.description }}
+          </span>
+        </div>
+        <ion-icon name="chevron-forward" class="result-arrow"></ion-icon>
+      </div>
+    </div>
+  </div>
+
   <!-- Promoción destacada -->
-  <div class="promo-banner" *ngIf="showPromo">
+  <div class="promo-banner" *ngIf="showPromo && (!showResults || searchResults.length === 0)">
     <div class="promo-content">
       <ion-icon name="gift" class="promo-icon"></ion-icon>
       <div class="promo-text">
@@ -61,13 +83,13 @@
   </ng-container>
 
   <!-- Categorías con título simplificado -->
-  <div class="section-header" *ngIf="filteredCategories.length > 0 || searchText === ''">
-    <h2 class="section-title">{{ searchText ? 'Resultados de búsqueda' : 'Categorías' }}</h2>
+  <div class="section-header" *ngIf="!showResults && searchText === ''">
+    <h2 class="section-title">Categorías</h2>
   </div>
 
   <!-- Grid de categorías mejorado (sin experiencias) -->
-  <div class="categories-grid" *ngIf="filteredCategories.length > 0">
-    <ion-card class="category-card" *ngFor="let cat of filteredCategories" (click)="onCategory(cat.id)">
+  <div class="categories-grid" *ngIf="!showResults && searchText === ''">
+    <ion-card class="category-card" *ngFor="let cat of categories" (click)="onCategory(cat.id)">
       <div class="card-overlay"></div>
       <ion-img [src]="getCategoryImage(cat.id)" [alt]="cat.name" class="category-bg" loading="lazy"></ion-img>
       <ion-card-content class="category-content">
@@ -84,18 +106,18 @@
   </div>
 
   <!-- Mensaje cuando no hay resultados -->
-  <div *ngIf="searchText && filteredCategories.length === 0" class="no-results">
+  <div *ngIf="searchText && searchResults.length === 0 && !showResults" class="no-results">
     <ion-icon name="search" class="no-results-icon"></ion-icon>
     <h2>No encontramos "{{ searchText }}"</h2>
     <p>Intenta con otro término o explora nuestras categorías</p>
   </div>
 
   <!-- Sección de ofertas -->
-  <div class="section-header">
+  <div class="section-header" *ngIf="!showResults">
     <h2 class="section-title">Ofertas especiales</h2>
   </div>
   
-  <div class="offers-slider">
+  <div class="offers-slider" *ngIf="!showResults">
     <ion-card class="offer-card">
       <div class="offer-content">
         <div class="offer-text">
