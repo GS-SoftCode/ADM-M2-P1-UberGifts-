@@ -4,7 +4,7 @@
     <div class="brand">
       <div class="brand-circle">
         <img 
-          src="../../../assets/icon/regalo.png" 
+          src="../../../assets/icon/UberGifts-bright-logo.png" 
           alt="Logo de Cautelapp" 
           class="brand-logo" 
         />
@@ -32,7 +32,8 @@
             [(ngModel)]="nombre"
             required
             aria-label="Nombre"
-          ></ion-input>
+              class="login-input"
+            ></ion-input>
         </ion-item>
 
         <!-- Email Field -->
@@ -53,7 +54,8 @@
             autocomplete="email"
             required
             aria-label="Correo electrónico"
-          ></ion-input>
+              class="login-input"
+            ></ion-input>
         </ion-item>
 
         <!-- Password Field -->
@@ -74,7 +76,8 @@
             required
             minlength="6"
             aria-label="Contraseña"
-          >
+              class="login-input"
+            >
             <ion-icon 
               slot="end"
               [name]="passwordVisible ? 'eye-off-outline' : 'eye-outline'"
@@ -105,7 +108,8 @@
             minlength="6"
             (ionBlur)="validatePasswordMatch()"
             aria-label="Confirmar Contraseña"
-          ></ion-input>
+              class="login-input"
+            ></ion-input>
         </ion-item>
         <p 
           *ngIf="passwordMatchError" 
@@ -114,15 +118,15 @@
 
         <!-- Submit Button -->
         <ion-button 
-          expand="block" 
-          class="primary" 
-          type="submit"
-          [disabled]="!canSubmit || loading"
-          aria-label="Crear cuenta"
-        >
-          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
-          <span *ngIf="!loading">Crear Cuenta</span>
-        </ion-button>
+            expand="block" 
+            class="primary login-input" 
+            type="submit"
+            [disabled]="!canSubmit || loading"
+            aria-label="Crear cuenta"
+          >
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+            <span *ngIf="!loading">Crear Cuenta</span>
+          </ion-button>
 
         <!-- Login Link -->
         <p class="aux">

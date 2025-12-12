@@ -1,3 +1,20 @@
+// Paleta de colores Cautelapp (Consistente con login)
+$dark-blue: #002333;      // Azul oscuro principal
+$purple-pastel: #9B6B9E;  // Morado visible para acentos
+$purple-dark: #B195C9;    // Morado oscuro para contenedor
+$light-gray: #B4BEC9;     // Gris claro
+$white: #FFFFFF;          // Blanco
+$text: #1A202C;           // Texto principal oscuro
+$text-light: #4A5568;     // Texto secundario
+$muted: #718096;          // Texto apagado
+$border: #E2E8F0;         // Borde claro
+$border-focus: #B4BEC9;   // Borde en foco
+$error: #DC2626;          // Rojo para errores
+$success: #159A9C;        // Teal para éxito
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
 // tab2.page.scss - Mejorado
 .tab2-bg {
   --background: #f8f9fa;
@@ -5,10 +22,12 @@
 
 // Banner superior consistente con Tab1
 .app-banner {
-  background: linear-gradient(135deg, #A9CEA3 0%, #8BC6A4 100%);
-  padding: 16px 16px 20px;
+  background: linear-gradient(135deg, #{$purple-dark} 0%, #{$purple-pastel} 100%);
+  padding: 16px 12px 20px;
   border-radius: 0 0 24px 24px;
-  box-shadow: 0 4px 12px rgba(169, 206, 163, 0.2);
+  box-shadow: 0 4px 12px rgba(177, 149, 201, 0.2);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .search-section {

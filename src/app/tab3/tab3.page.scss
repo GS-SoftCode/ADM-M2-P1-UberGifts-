@@ -1,7 +1,24 @@
+// Paleta de colores Cautelapp (Consistente con login)
+$dark-blue: #002333;      // Azul oscuro principal
+$purple-pastel: #9B6B9E;  // Morado visible para acentos
+$purple-dark: #B195C9;    // Morado oscuro para contenedor
+$light-gray: #B4BEC9;     // Gris claro
+$white: #FFFFFF;          // Blanco
+$text: #1A202C;           // Texto principal oscuro
+$text-light: #4A5568;     // Texto secundario
+$muted: #718096;          // Texto apagado
+$border: #E2E8F0;         // Borde claro
+$border-focus: #B4BEC9;   // Borde en foco
+$error: #DC2626;          // Rojo para errores
+$success: #159A9C;        // Teal para éxito
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
 /* Reutiliza el estilo del banner y lista como en Category/Tab1 */
 .category-bg { --background: #f8f9fa; }
 .app-banner {
-	background: linear-gradient(135deg, #A9CEA3 0%, #8BC6A4 100%);
+	background: linear-gradient(135deg, #{$purple-dark} 0%, #{$purple-pastel} 100%);
 	padding: 16px 16px 20px;
 	border-radius: 0 0 24px 24px;
 	box-shadow: 0 4px 12px rgba(169, 206, 163, 0.2);
@@ -15,7 +32,7 @@
 .section-title { margin: 0; color: #333; font-weight: 700; font-size: 20px; letter-spacing: -0.5px; }
 
 .cart-actions { padding: 0 16px 8px; }
-.buy-btn { --background: #A9CEA3; --color: #000; border-radius: 14px; font-weight: 700; }
+.buy-btn { --background: #{$purple-dark}; --color: #000; border-radius: 14px; font-weight: 700; }
 
 .products-list { padding: 0 16px 90px; display: flex; flex-direction: column; gap: 16px; }
 .product-card { border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); overflow: hidden; margin: 0; }

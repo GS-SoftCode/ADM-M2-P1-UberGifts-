@@ -1,8 +1,8 @@
-// Paleta de colores Cautelapp (Consistente con login)
+// Paleta de colores (alineada con `login.page.scss`)
 $dark-blue: #002333;      // Azul oscuro principal
-$purple-pastel: #9B6B9E;  // Morado visible para acentos
-$purple-dark: #B195C9;    // Morado oscuro para contenedor
+$teal: #159A9C;           // Celeste/teal para acentos
 $light-gray: #B4BEC9;     // Gris claro
+$light-mint: #DEEFE7;     // Verde agua claro
 $white: #FFFFFF;          // Blanco
 $text: #1A202C;           // Texto principal oscuro
 $text-light: #4A5568;     // Texto secundario
@@ -10,6 +10,9 @@ $muted: #718096;          // Texto apagado
 $border: #E2E8F0;         // Borde claro
 $border-focus: #B4BEC9;   // Borde en foco
 $error: #DC2626;          // Rojo para errores
+$success: #159A9C;        // Teal para éxito
+$purple-pastel: #9B6B9E;  // Morado visible para acentos
+$purple-dark: #B195C9;    // Morado oscuro para contenedor
 $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -39,7 +42,8 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   width: 110px;
   height: 110px;
   border-radius: 30px;
-  background: $purple-dark;
+  background: $purple-dark; /* fallback */
+  background-image: linear-gradient(135deg, $purple-dark 0%, $purple-pastel 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,31 +60,30 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
 .card {
   width: 100%;
-  max-width: 440px;
+  max-width: 340px; /* match login */
   background: $white;
   border: 1px solid $border;
-  border-radius: 20px;
-  padding: 32px 24px;
-  box-shadow: $shadow-lg;
+  border-radius: 14px;
+  padding: 16px 8px;
+  box-shadow: $shadow-md;
   animation: fadeInUp 0.6s ease-out;
   transition: box-shadow 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
+  box-sizing: border-box;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 .title {
-  margin: 0 0 24px;
+  margin: 0 0 14px;
   text-align: center;
-  font-size: 26px;
+  font-size: 19px;
   font-weight: 700;
   color: $text;
   letter-spacing: -0.5px;
 }
 
 .field {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   --background: #{$white};
   --color: #{$text};
   --border-color: #{$border};
@@ -96,12 +99,12 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   ion-label {
     color: $dark-blue !important;
     font-weight: 600 !important;
-    font-size: 20px !important;
-    margin-bottom: 10px !important;
-    letter-spacing: 0.8px !important;
+    font-size: 15px !important;
+    margin-bottom: 6px !important;
+    letter-spacing: 0.6px !important;
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 4px !important;
 
     ion-icon {
       color: $purple-pastel !important;
@@ -120,14 +123,14 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 ion-input {
-  --padding-start: 16px;
-  --padding-end: 48px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  border: 2px solid $light-gray;
-  border-radius: 12px;
-  font-size: 15px;
-  margin-top: 4px;
+  --padding-start: 8px;
+  --padding-end: 28px;
+  --padding-top: 7px;
+  --padding-bottom: 7px;
+  border: 1.5px solid $light-gray;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 2px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
@@ -136,7 +139,7 @@ ion-input {
 
   &.ion-focused {
     border-color: $purple-pastel;
-    box-shadow: 0 0 0 3px rgba(155, 107, 158, 0.15);
+    box-shadow: 0 0 0 3px rgba(177, 149, 201, 0.15);
   }
 
   &.ion-invalid.ion-touched {
@@ -159,22 +162,22 @@ ion-input {
 
 .primary {
   --background: #{$purple-dark};
-  --background-hover: #{$purple-pastel};
-  --background-activated: #{$purple-pastel};
+  --background-hover: #9B6B9E;
+  --background-activated: #9B6B9E;
   --color: #{$white};
-  --border-radius: 12px;
-  --box-shadow: #{$shadow-md};
-  margin-top: 12px;
-  height: 48px;
+  --border-radius: 8px;
+  --box-shadow: #{$shadow-sm};
+  margin-top: 8px;
+  height: 36px;
   font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 0.3px;
+  font-size: 14px;
+  letter-spacing: 0.2px;
   text-transform: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:not([disabled]):hover {
     transform: translateY(-1px);
-    --box-shadow: #{$shadow-lg};
+    --box-shadow: #{$shadow-md};
   }
 
   &:not([disabled]):active {
@@ -190,7 +193,7 @@ ion-input {
 .aux {
   text-align: center;
   margin-top: 16px;
-  font-size: 14px;
+  font-size: 12px;
   color: $muted;
 }
 
