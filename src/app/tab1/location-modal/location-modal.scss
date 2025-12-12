@@ -62,6 +62,7 @@
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #fff;
 
   .location-header-card {
     padding: 16px;
@@ -203,15 +204,37 @@
     border: 1px solid #E2E8F0;
     border-radius: 8px;
     --background: white;
+    color: black;
     margin-bottom: 4px;
 
     &::part(native) {
       font-size: 14px;
-      color: #1A202C;
+      color: #1A202C !important;
+      caret-color: #1A202C !important;
     }
-
-    &::placeholder {
-      color: #718096;
+    input {
+      color: #1A202C !important;
+      caret-color: #1A202C !important;
+    }
+    input::placeholder {
+      color: #1A202C !important;
+      opacity: 1 !important;
+    }
+    &::-webkit-input-placeholder {
+      color: #1A202C !important;
+      opacity: 1 !important;
+    }
+    &::-moz-placeholder {
+      color: #1A202C !important;
+      opacity: 1 !important;
+    }
+    &:-ms-input-placeholder {
+      color: #1A202C !important;
+      opacity: 1 !important;
+    }
+    &::-ms-input-placeholder {
+      color: #1A202C !important;
+      opacity: 1 !important;
     }
   }
 

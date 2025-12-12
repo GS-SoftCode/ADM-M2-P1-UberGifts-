@@ -59,49 +59,14 @@
         </div>
       </ion-card>
 
-      <!-- Mostrar formulario si no hay ubicación guardada -->
-      <div class="shipping-form" *ngIf="!selectedLocation">
-        <ion-label>Nombre Completo</ion-label>
-        <ion-input 
-          [(ngModel)]="fullName"
-          placeholder="Tu nombre"
-          type="text">
-        </ion-input>
-
-        <ion-label>Email</ion-label>
-        <ion-input 
-          [(ngModel)]="email"
-          placeholder="tu@email.com"
-          type="email">
-        </ion-input>
-
-        <ion-label>Teléfono</ion-label>
-        <ion-input 
-          [(ngModel)]="phone"
-          placeholder="Tu teléfono"
-          type="tel">
-        </ion-input>
-
-        <ion-label>Dirección</ion-label>
-        <ion-input 
-          [(ngModel)]="address"
-          placeholder="Calle y número"
-          type="text">
-        </ion-input>
-
-        <ion-label>Ciudad</ion-label>
-        <ion-input 
-          [(ngModel)]="city"
-          placeholder="Tu ciudad"
-          type="text">
-        </ion-input>
-
-        <ion-label>Código Postal</ion-label>
-        <ion-input 
-          [(ngModel)]="zipCode"
-          placeholder="Código postal"
-          type="text">
-        </ion-input>
+      <!-- Mostrar mensaje y botón si no hay ubicación guardada -->
+      <div class="no-location" *ngIf="!selectedLocation">
+        <h2>No tienes ubicaciones guardadas</h2>
+        <div class="add-location-container">
+          <ion-button expand="block" class="add-location-btn" (click)="openLocationModal()">
+            Agregar ubicación
+          </ion-button>
+        </div>
       </div>
     </div>
 
