@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, interval, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FirestoreService } from './firestore.service';
+import { Orden } from '../models/orden.model';
+import { AuthService } from './auth.service';
 
+// Interfaz legada para compatibilidad
 export interface CurrentOrder {
   orderNumber: string;
   total: number;
@@ -19,8 +23,12 @@ export class OrderService {
   private currentOrderSubject = new BehaviorSubject<CurrentOrder | null>(null);
   currentOrder$: Observable<CurrentOrder | null> = this.currentOrderSubject.asObservable();
   private timerSubscription: Subscription | null = null;
+  private collectionName = 'ordenes';
 
-  constructor() {
+  constructor(
+    private firestoreService: FirestoreService,
+    private authService: AuthService
+  ) {
     this.loadCurrentOrder();
   }
 

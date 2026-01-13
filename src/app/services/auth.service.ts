@@ -13,7 +13,9 @@ import {
   sendPasswordResetEmail
 } from '@angular/fire/auth';
 import { from, Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { FirestoreService } from './firestore.service';
+import { Usuario } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,10 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private auth: Auth) {
+  constructor(
+    private auth: Auth,
+    private firestoreService: FirestoreService
+  ) {
     // Monitorear cambios en el estado de autenticación
     onAuthStateChanged(this.auth, (user) => {
       this.currentUserSubject.next(user);
@@ -37,7 +42,7 @@ export class AuthService {
   }
 
   /**
-   * Registrar nuevo usuario
+   * Registrar nuevo usuario y guardarlo en Firestore
    */
   register(email: string, password: string, displayName?: string): Observable<any> {
     return from(
@@ -45,6 +50,22 @@ export class AuthService {
         if (displayName) {
           await updateProfile(result.user, { displayName });
         }
+        
+        // Guardar datos del usuario en Firestore
+        const usuarioData: Usuario = {
+          uid: result.user.uid,
+          email: result.user.email || '',
+          displayName: displayName || result.user.displayName || 'Usuario',
+          fotoPerfil: result.user.photoURL || undefined,
+          rol: 'cliente',
+          activo: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          numeroOrdenCompletadas: 0
+        };
+        
+        await this.firestoreService.addDocument('usuarios', usuarioData).toPromise();
+        
         return result;
       })
     );
