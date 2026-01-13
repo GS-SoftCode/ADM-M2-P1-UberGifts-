@@ -42,6 +42,26 @@ interface Category {
   icon: string;
 }
 
+interface Product {
+  id: number;
+  name: string;
+  image: string;
+  storeIcon: string;
+  rating: number;
+  price: number;
+  description: string;
+  category?: string;
+}
+
+interface SearchResult {
+  type: 'category' | 'product';
+  id: string | number;
+  name: string;
+  icon?: string;
+  description?: string;
+  category?: string;
+}
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -65,6 +85,8 @@ export class Tab1Page implements OnInit {
   showPromo: boolean = true;
   searchText: string = '';
   filteredCategories: Category[] = [];
+  searchResults: SearchResult[] = [];
+  showResults: boolean = false;
   currentOrder$!: Observable<CurrentOrder | null>;
   
   categories: Category[] = [
@@ -80,6 +102,25 @@ export class Tab1Page implements OnInit {
     'peluches': '../../assets/icon/Peluches.jpg',
     'chocolates': 'https://images.unsplash.com/photo-1511381939415-e44015466834?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   };
+
+  products: Product[] = [
+    // Dulces
+    { id: 1, name: 'Suspiros', image: 'assets/icon/Dulces/Suspiros.jpeg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 5, price: 0.75, description: 'Dulces tradicionales crujientes y ligeros.', category: 'dulces' },
+    { id: 2, name: 'Pristiños', image: 'assets/icon/Dulces/Pristiños.png', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 4, price: 1.10, description: 'Deliciosos pristiños con miel.', category: 'dulces' },
+    { id: 3, name: 'Alfajores', image: 'assets/icon/Dulces/Alfajores.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 3, price: 1.50, description: 'Alfajores rellenos con dulce de leche.', category: 'dulces' },
+    // Chocolates
+    { id: 4, name: 'Bombones mixtos', image: 'assets/icon/Chocolates/BombonesMixtos.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 5, price: 0.99, description: 'Selección de bombones surtidos con cacao premium.', category: 'chocolates' },
+    { id: 5, name: 'Caja de chocolates', image: 'assets/icon/Chocolates/CajaChocolates.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 4, price: 3.50, description: 'Caja elegante con variedad de chocolates artesanales.', category: 'chocolates' },
+    { id: 6, name: 'Trufas de cacao', image: 'assets/icon/Chocolates/TrufasCacao.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 4, price: 2.25, description: 'Trufas suaves cubiertas de cacao fino.', category: 'chocolates' },
+    // Flores
+    { id: 7, name: 'Ramo rosas', image: 'assets/icon/Flores/RamoRosas.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 5, price: 8.99, description: 'Ramo de rosas frescas y fragantes.', category: 'flores' },
+    { id: 8, name: 'Tulipanes mixtos', image: 'assets/icon/Flores/Tulipanes.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 4, price: 7.50, description: 'Tulipanes de colores variados.', category: 'flores' },
+    { id: 9, name: 'Gerberas', image: 'assets/icon/Flores/Gerberas.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 4, price: 6.80, description: 'Girasoles brillantes y alegres.', category: 'flores' },
+    // Peluches
+    { id: 10, name: 'Osos clásicos', image: 'assets/icon/Peluches/Osos.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 5, price: 4.99, description: 'Peluche de oso suave y tierno.', category: 'peluches' },
+    { id: 11, name: 'Peluche de Stitch', image: 'assets/icon/Peluches/Stitch.jpeg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 4, price: 6.50, description: 'Peluche de Stitch con gran detalle.', category: 'peluches' },
+    { id: 12, name: 'Panda suave', image: 'assets/icon/Peluches/Panda.jpg', storeIcon: 'assets/icon/LocalDulces.jpg', rating: 3, price: 5.25, description: 'Peluche de panda esponjoso.', category: 'peluches' },
+  ];
 
   constructor(
     private authService: AuthService,
@@ -129,15 +170,69 @@ export class Tab1Page implements OnInit {
     this.searchText = value;
     
     if (value === '') {
-      // Si el búsqueda está vacía, mostrar todas las categorías
-      this.filteredCategories = [...this.categories];
+      this.searchResults = [];
+      this.showResults = false;
     } else {
-      // Filtrar categorías por nombre
-      this.filteredCategories = this.categories.filter(cat =>
-        cat.name.toLowerCase().includes(value) ||
-        cat.id.toLowerCase().includes(value)
-      );
+      // Resultados combinados: categorías y productos
+      this.searchResults = this.getSearchResults(value);
+      this.showResults = this.searchResults.length > 0;
     }
+  }
+
+  private getSearchResults(query: string): SearchResult[] {
+    const results: SearchResult[] = [];
+
+    // Buscar en categorías
+    this.categories.forEach(cat => {
+      if (cat.name.toLowerCase().includes(query) || cat.id.toLowerCase().includes(query)) {
+        results.push({
+          type: 'category',
+          id: cat.id,
+          name: cat.name,
+          icon: cat.icon,
+          description: `${cat.count} opciones`
+        });
+      }
+    });
+
+    // Buscar en productos
+    this.products.forEach(prod => {
+      if (prod.name.toLowerCase().includes(query) || prod.description.toLowerCase().includes(query)) {
+        results.push({
+          type: 'product',
+          id: prod.id,
+          name: prod.name,
+          description: prod.category,
+          category: prod.category
+        });
+      }
+    });
+
+    return results.slice(0, 10);
+  }
+
+  onSelectResult(result: SearchResult) {
+    if (result.type === 'category') {
+      this.router.navigate(['/tabs/category', result.id]);
+    } else if (result.type === 'product') {
+      const product = this.products.find(p => p.id === result.id);
+      if (product) {
+        this.router.navigate(['/product', product.id], {
+          queryParams: {
+            name: product.name,
+            image: product.image,
+            rating: product.rating,
+            price: product.price,
+            description: product.description,
+            category: product.category
+          }
+        });
+      }
+    }
+
+    this.searchText = '';
+    this.searchResults = [];
+    this.showResults = false;
   }
 
   getCategoryImage(categoryId: string): string {

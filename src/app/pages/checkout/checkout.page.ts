@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonIcon, IonInput, IonLabel, IonCard],
+  imports: [CommonModule, FormsModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonIcon, IonCard],
   templateUrl: './checkout.page.html',
   styleUrls: ['./checkout.page.scss']
 })
