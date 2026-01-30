@@ -87,11 +87,47 @@ export class LoginPage implements OnInit {
           message = 'Email inválido.';
         } else if (error.code === 'auth/too-many-requests') {
           message = 'Demasiados intentos fallidos. Intenta más tarde.';
+        } else if (error.code === 'auth/invalid-credential') {
+          message = 'Credenciales inválidas. Verifica tu email y contraseña.';
         }
         
+        console.error('Error de login:', error);
         await this.showToast(message, 'danger');
       }
     });
+  }
+
+  async loginWithGoogle() {
+    this.loading = true;
+
+    try {
+      const result = await this.authService.loginWithGoogle();
+      this.loading = false;
+      
+      if (result) {
+        await this.showToast('¡Bienvenido! Iniciando sesión con Google...', 'success');
+        
+        // Navegar a tabs después de 500ms
+        setTimeout(() => {
+          this.navCtrl.navigateRoot('/tabs', { replaceUrl: true });
+        }, 500);
+      }
+    } catch (error: any) {
+      this.loading = false;
+      
+      let message = 'Error al iniciar sesión con Google.';
+      
+      if (error.code === 'auth/popup-closed-by-user') {
+        message = 'Inicio de sesión cancelado.';
+      } else if (error.code === 'auth/popup-blocked') {
+        message = 'Popup bloqueado. Permite popups en tu navegador.';
+      } else if (error.code === 'auth/network-request-failed') {
+        message = 'Error de conexión. Verifica tu internet.';
+      }
+      
+      console.error('Error de login con Google:', error);
+      await this.showToast(message, 'danger');
+    }
   }
 
   goRegister() {

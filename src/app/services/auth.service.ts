@@ -10,7 +10,11 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   updatePassword as firebaseUpdatePassword,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult
 } from '@angular/fire/auth';
 import { from, Observable, BehaviorSubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -76,6 +80,46 @@ export class AuthService {
    */
   logout(): Observable<void> {
     return from(signOut(this.auth));
+  }
+
+  /**
+   * Iniciar sesión con Google
+   */
+  async loginWithGoogle(): Promise<any> {
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.addScope('profile');
+      provider.addScope('email');
+      
+      // En dispositivos móviles, usar redirect es más confiable
+      const result = await signInWithPopup(this.auth, provider);
+      
+      // Si el usuario es nuevo, guardar en Firestore
+      if (result.user) {
+        const userDoc = await this.firestoreService.getDocument('usuarios', result.user.uid).toPromise();
+        
+        if (!userDoc) {
+          const usuarioData: Usuario = {
+            uid: result.user.uid,
+            email: result.user.email || '',
+            displayName: result.user.displayName || 'Usuario Google',
+            fotoPerfil: result.user.photoURL || undefined,
+            rol: 'cliente',
+            activo: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            numeroOrdenCompletadas: 0
+          };
+          
+          await this.firestoreService.addDocument('usuarios', usuarioData).toPromise();
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Error en login con Google:', error);
+      throw error;
+    }
   }
 
   /**

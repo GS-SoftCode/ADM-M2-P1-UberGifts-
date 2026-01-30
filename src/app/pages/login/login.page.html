@@ -79,6 +79,28 @@
           </ion-button>
         </div>
 
+        <!-- Divider -->
+        <div style="display: flex; align-items: center; margin: 24px 0; gap: 12px;">
+          <div style="flex: 1; height: 1px; background: var(--ion-color-medium);"></div>
+          <span style="color: var(--ion-color-medium); font-size: 14px;">o continúa con</span>
+          <div style="flex: 1; height: 1px; background: var(--ion-color-medium);"></div>
+        </div>
+
+        <!-- Google Sign In Button -->
+        <div class="form-fields-group">
+          <ion-button 
+            expand="block" 
+            fill="outline"
+            class="login-input"
+            (click)="loginWithGoogle()"
+            [disabled]="loading"
+            aria-label="Iniciar sesión con Google"
+          >
+            <ion-icon slot="start" name="logo-google"></ion-icon>
+            <span>Iniciar con Google</span>
+          </ion-button>
+        </div>
+
         <!-- Forgot Password -->
         <div class="forgot-section">
           <button 

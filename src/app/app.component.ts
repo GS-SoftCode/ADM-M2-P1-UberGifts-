@@ -15,44 +15,57 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('🧪 Iniciando prueba de Firestore...');
+    console.log('🧪 Iniciando aplicación...');
 
-    // Primero verificar si la BD está vacía
-    this.dataInitializer.checkIfDatabaseInitialized().subscribe(
-      (initialized) => {
-        if (!initialized) {
-          console.log('📥 Base de datos vacía. Inicializando con 15 productos...');
-          this.dataInitializer.initializeDatabase().subscribe(
-            () => {
-              console.log('✅ Base de datos inicializada correctamente');
-              this.pruebaFirestore();
-            },
-            (error) => {
-              console.error('❌ Error inicializando BD:', error);
-            }
-          );
-        } else {
-          console.log('✅ Base de datos ya tiene datos');
-          this.pruebaFirestore();
+    // Envolver en try-catch para evitar crashes
+    try {
+      // Primero verificar si la BD está vacía
+      this.dataInitializer.checkIfDatabaseInitialized().subscribe(
+        (initialized) => {
+          if (!initialized) {
+            console.log('📥 Base de datos vacía. Inicializando con 15 productos...');
+            this.dataInitializer.initializeDatabase().subscribe(
+              () => {
+                console.log('✅ Base de datos inicializada correctamente');
+                this.pruebaFirestore();
+              },
+              (error) => {
+                console.error('❌ Error inicializando BD:', error);
+                // No lanzar el error, solo loguearlo
+              }
+            );
+          } else {
+            console.log('✅ Base de datos ya tiene datos');
+            this.pruebaFirestore();
+          }
+        },
+        (error) => {
+          console.error('❌ Error verificando BD:', error);
+          // No lanzar el error, solo loguearlo
         }
-      },
-      (error) => {
-        console.error('❌ Error verificando BD:', error);
-      }
-    );
+      );
+    } catch (error) {
+      console.error('❌ Error crítico en ngOnInit:', error);
+      // Continuar sin inicializar la BD
+    }
   }
 
   pruebaFirestore() {
-    this.productoService.obtenerProductos().subscribe(
-      (productos) => {
-        console.log('✅ SUCCESS! Productos obtenidos:', productos.length);
-        if (productos.length > 0) {
-          console.log('Primer producto:', productos[0]);
+    try {
+      this.productoService.obtenerProductos().subscribe(
+        (productos) => {
+          console.log('✅ SUCCESS! Productos obtenidos:', productos.length);
+          if (productos.length > 0) {
+            console.log('Primer producto:', productos[0]);
+          }
+        },
+        (error) => {
+          console.error('❌ ERROR obteniendo productos:', error);
+          // No lanzar el error, la app puede seguir funcionando
         }
-      },
-      (error) => {
-        console.error('❌ ERROR:', error.message);
-      }
-    );
+      );
+    } catch (error) {
+      console.error('❌ Error en pruebaFirestore:', error);
+    }
   }
 }
